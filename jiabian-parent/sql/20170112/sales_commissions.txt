@@ -1,0 +1,3 @@
+лМ╪свж╤н
+
+capitalInfoId   bigint   20   0   вй╫Пук╨еId

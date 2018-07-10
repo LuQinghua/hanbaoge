@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>地址</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+		<h2 align="center">地址详情</h2>
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<table class="table table-hover table-bordered" id="">
+					<thead>
+						<tr>
+							<th width="5%" style="text-align: center;">收货人</th>
+							<th width="20%" style="text-align: center;">收货地址</th>
+							<th width="5%" style="text-align: center;">联系电话</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($address in $res)
+							<input type="hidden" class="child-check" value="$!address.id"/>
+							<tr>
+								<td align="center" class="name" value="$!address.name">$!user.name</td>
+								<td align="center" class="address" value="$!address.address">$!address.address</td>
+								<td align="center" class="telephone" value="$!address.telephone">$!address.telephone</td>
+							</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<div style="text-align: center;">
+		<a style="width: 100px;"  class="btn default" href="#" onclick ="javascript:history.go(-1);"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;返回</a>
+	</div>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+</body>
+</html>

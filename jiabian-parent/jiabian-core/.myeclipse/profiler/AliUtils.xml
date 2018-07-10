@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="app_preset_prof_preset_name">AliUtils Launch Configuration</entry>
+<entry key="app_preset_prof_preset_filter_s"/>
+<entry key="app_preset_prof_preset_filter_p">com.jiabian.base.mapper.compound.*,
+com.jiabian.base.mapper.single.*,
+com.jiabian.base.service.compound.*,
+com.jiabian.base.service.single.*,
+com.jiabian.cache.*,
+com.jiabian.callback.alipay.*,
+com.jiabian.callback.wxpay.*,
+com.jiabian.callback.yiwangtong.*,
+com.jiabian.freight.*,
+com.jiabian.json.*,
+com.jiabian.kuaidi100.*,
+com.jiabian.pay.alipay.config.*,
+com.jiabian.pay.alipay.sign.*,
+com.jiabian.pay.alipay.util.*,
+com.jiabian.pay.wxpay.*,
+com.jiabian.qiniu.*,
+com.jiabian.rongyun.model.*,
+com.jiabian.rongyun.rongyun.*,
+com.jiabian.solr.*,
+com.jiabian.util.*</entry>
+<entry key="app_preset_prof_preset_alloc_p">10</entry>
+<entry key="app_preset_"/>
+<entry key="app_preset_prof_preset_samplingRefreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_stacks_p">false</entry>
+<entry key="app_preset_prof_preset_roots_p">com.jiabian.base.mapper.compound.**
+com.jiabian.base.mapper.single.**
+com.jiabian.base.service.compound.**
+com.jiabian.base.service.single.**
+com.jiabian.cache.**
+com.jiabian.callback.alipay.**
+com.jiabian.callback.wxpay.**
+com.jiabian.callback.yiwangtong.**
+com.jiabian.freight.**
+com.jiabian.json.**
+com.jiabian.kuaidi100.**
+com.jiabian.pay.alipay.config.**
+com.jiabian.pay.alipay.sign.**
+com.jiabian.pay.alipay.util.**
+com.jiabian.pay.wxpay.**
+com.jiabian.qiniu.**
+com.jiabian.rongyun.model.**
+com.jiabian.rongyun.rongyun.**
+com.jiabian.solr.**
+com.jiabian.util.**
+</entry>
+<entry key="profiler.settings.instrument.empty.methods">false</entry>
+<entry key="myeclipse.profiling.mode">0</entry>
+<entry key="profiler.settings.istrument.getter.setter.methods">false</entry>
+<entry key="app_preset_prof_preset_samplingRate_s">100</entry>
+<entry key="app_preset_prof_preset_filterMode_s">true</entry>
+<entry key="app_preset_prof_preset_selector"/>
+<entry key="app_preset_prof_preset_refreshRate_s">1000</entry>
+<entry key="app_preset_prof_preset_runnables_p">true</entry>
+<entry key="app_preset_prof_preset_filterMode_p">false</entry>
+<entry key="app_preset_prof_preset_memoryMode_p">true</entry>
+</properties>

@@ -1,0 +1,9 @@
+新建表
+
+payPartake_id      bigint    20   0   主键  
+payPartake_num     varchar   20   0   订单号
+id                 bigint    20   0   商品id
+payPartake_isPay   tinyint   4    0   支付状态(1.已支付 2.未支付)
+payPartake_time    timestamp 0    0   支付时间    默认：CURRENT_TIMESTAMP
+payPartake_money   decimal   20   2   支付金额
+payPartake_method  tinyint   4    0   支付方式(1.家边通宝 2.一网通 3.微信支付 4.支					      付宝)

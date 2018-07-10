@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysLogMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysLog" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="logModule" property="logModule" jdbcType="VARCHAR" />
+        <result column="logContext" property="logContext" jdbcType="VARCHAR" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="userId" property="userId" jdbcType="BIGINT" />
+        <result column="userIP" property="userIP" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, logModule, logContext, createTime, userId, userIP
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysLogQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_log
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+ 
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysLog" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_log (logModule, logContext, createTime, 
+            userId, userIP)
+        values (#{logModule,jdbcType=VARCHAR}, #{logContext,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+            #{userId,jdbcType=BIGINT}, #{userIP,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysLog" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="logModule != null" >
+                logModule,
+            </if>
+            <if test="logContext != null" >
+                logContext,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="userIP != null" >
+                userIP,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="logModule != null" >
+                #{logModule,jdbcType=VARCHAR},
+            </if>
+            <if test="logContext != null" >
+                #{logContext,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userIP != null" >
+                #{userIP,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysLogQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_log
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_log
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.logModule != null" >
+                logModule = #{record.logModule,jdbcType=VARCHAR},
+            </if>
+            <if test="record.logContext != null" >
+                logContext = #{record.logContext,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createTime != null" >
+                createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userId != null" >
+                userId = #{record.userId,jdbcType=BIGINT},
+            </if>
+            <if test="record.userIP != null" >
+                userIP = #{record.userIP,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update sys_log
+        set id = #{record.id,jdbcType=BIGINT},
+            logModule = #{record.logModule,jdbcType=VARCHAR},
+            logContext = #{record.logContext,jdbcType=VARCHAR},
+            createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            userId = #{record.userId,jdbcType=BIGINT},
+            userIP = #{record.userIP,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysLog" >
+        update sys_log
+        <set >
+            <if test="logModule != null" >
+                logModule = #{logModule,jdbcType=VARCHAR},
+            </if>
+            <if test="logContext != null" >
+                logContext = #{logContext,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null" >
+                userId = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userIP != null" >
+                userIP = #{userIP,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_log
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysLogQueryHelper" >
+        delete from sys_log
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+	
+	   
+    <select id="selectforPageByParam" resultType="com.jiabian.sys.syslog.response.SysLogResp"
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="selectCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="countforPageByParam" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectCondition" />
+	</select>
+
+	<sql id="selectCondition">
+		from sys_log l left join sys_user u
+		on l.userId=u.suserId left join sys_role r on u.roleId=r.roleId
+		<!-- 其他查询条件 WHERE -->
+		<where>
+			1=1
+			<if test="(req.startTime != null and req.startTime!='') and (req.endTime != null and req.endTime!='')">
+				<if test="req.startTime != req.endTime">
+					and DATE_FORMAT(l.createTime,'%Y-%m-%d') &gt;= #{req.startTime} and DATE_FORMAT(l.createTime,'%Y-%m-%d') &lt;= #{req.endTime}
+				</if>
+				<if test="req.startTime == req.endTime">
+					and DATE_FORMAT(l.createTime,'%Y-%m-%d')= #{req.startTime}
+				</if>
+			</if>
+			<if test="(req.startTime != null and req.startTime!='') and (req.endTime == null or req.endTime=='')">
+				and DATE_FORMAT(l.createTime,'%Y-%m-%d') &gt;= #{req.startTime}
+			</if>
+			<if test="(req.endTime != null and req.endTime!='') and (req.startTime == null or req.startTime=='')">
+				and DATE_FORMAT(l.createTime,'%Y-%m-%d') &lt;= #{req.endTime}
+			</if>
+			
+		</where>
+	</sql>
+    
+</mapper>

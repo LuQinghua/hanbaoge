@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysUserMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysUser" >
+        <id column="suserId" property="suserId" jdbcType="BIGINT" />
+        <result column="realName" property="realName" jdbcType="VARCHAR" />
+        <result column="loginName" property="loginName" jdbcType="VARCHAR" />
+        <result column="loginPwd" property="loginPwd" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="TINYINT" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="roleId" property="roleId" jdbcType="BIGINT" />
+        <result column="province" property="province" jdbcType="BIGINT" />
+        <result column="city" property="city" jdbcType="BIGINT" />
+        <result column="area" property="area" jdbcType="BIGINT" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="isDel" property="isDel" jdbcType="TINYINT" />
+        <result column="invitationCode" property="invitationCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        suserId, realName, loginName, loginPwd, sex, email, roleId, province, city, area, 
+        createTime, updateTime, isDel, invitationCode
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysUserQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where suserId = #{suserId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysUser" >
+        <selectKey resultType="java.lang.Long" keyProperty="suserId" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (realName, loginName, loginPwd, 
+            sex, email, roleId, 
+            province, city, area, 
+            createTime, updateTime, isDel, 
+            invitationCode)
+        values (#{realName,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, 
+            #{sex,jdbcType=TINYINT}, #{email,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, 
+            #{province,jdbcType=BIGINT}, #{city,jdbcType=BIGINT}, #{area,jdbcType=BIGINT}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=TINYINT}, 
+            #{invitationCode,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysUser" >
+        <selectKey resultType="java.lang.Long" keyProperty="suserId" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="realName != null" >
+                realName,
+            </if>
+            <if test="loginName != null" >
+                loginName,
+            </if>
+            <if test="loginPwd != null" >
+                loginPwd,
+            </if>
+            <if test="sex != null" >
+                sex,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="roleId != null" >
+                roleId,
+            </if>
+            <if test="province != null" >
+                province,
+            </if>
+            <if test="city != null" >
+                city,
+            </if>
+            <if test="area != null" >
+                area,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="updateTime != null" >
+                updateTime,
+            </if>
+            <if test="isDel != null" >
+                isDel,
+            </if>
+            <if test="invitationCode != null" >
+                invitationCode,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="realName != null" >
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null" >
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null" >
+                #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null" >
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="province != null" >
+                #{province,jdbcType=BIGINT},
+            </if>
+            <if test="city != null" >
+                #{city,jdbcType=BIGINT},
+            </if>
+            <if test="area != null" >
+                #{area,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="invitationCode != null" >
+                #{invitationCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysUserQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_user
+        <set >
+            <if test="record.suserId != null" >
+                suserId = #{record.suserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.realName != null" >
+                realName = #{record.realName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.loginName != null" >
+                loginName = #{record.loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.loginPwd != null" >
+                loginPwd = #{record.loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null" >
+                sex = #{record.sex,jdbcType=TINYINT},
+            </if>
+            <if test="record.email != null" >
+                email = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.roleId != null" >
+                roleId = #{record.roleId,jdbcType=BIGINT},
+            </if>
+            <if test="record.province != null" >
+                province = #{record.province,jdbcType=BIGINT},
+            </if>
+            <if test="record.city != null" >
+                city = #{record.city,jdbcType=BIGINT},
+            </if>
+            <if test="record.area != null" >
+                area = #{record.area,jdbcType=BIGINT},
+            </if>
+            <if test="record.createTime != null" >
+                createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null" >
+                updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isDel != null" >
+                isDel = #{record.isDel,jdbcType=TINYINT},
+            </if>
+            <if test="record.invitationCode != null" >
+                invitationCode = #{record.invitationCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update sys_user
+        set suserId = #{record.suserId,jdbcType=BIGINT},
+            realName = #{record.realName,jdbcType=VARCHAR},
+            loginName = #{record.loginName,jdbcType=VARCHAR},
+            loginPwd = #{record.loginPwd,jdbcType=VARCHAR},
+            sex = #{record.sex,jdbcType=TINYINT},
+            email = #{record.email,jdbcType=VARCHAR},
+            roleId = #{record.roleId,jdbcType=BIGINT},
+            province = #{record.province,jdbcType=BIGINT},
+            city = #{record.city,jdbcType=BIGINT},
+            area = #{record.area,jdbcType=BIGINT},
+            createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            isDel = #{record.isDel,jdbcType=TINYINT},
+            invitationCode = #{record.invitationCode,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysUser" >
+        update sys_user
+        <set >
+            <if test="realName != null" >
+                realName = #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginName != null" >
+                loginName = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null and loginPwd !='' " >
+                loginPwd = #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex,jdbcType=TINYINT},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="roleId != null" >
+                roleId = #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="province != null" >
+                province = #{province,jdbcType=BIGINT},
+            </if>
+            <if test="city != null" >
+                city = #{city,jdbcType=BIGINT},
+            </if>
+            <if test="area != null" >
+                area = #{area,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                isDel = #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="invitationCode != null" >
+                invitationCode = #{invitationCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where suserId = #{suserId,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_user
+        where suserId = #{suserId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysUserQueryHelper" >
+        delete from sys_user
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+	
+	<select id="selectforPageByParam" resultType="com.jiabian.sys.sysuser.response.SysUserResp"
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="selectCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="countforPageByParam" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectCondition" />
+	</select>
+
+	<sql id="selectCondition">
+		from sys_user u left join sys_role r on u.roleId=r.roleId
+		<!-- 其他查询条件 WHERE -->
+		<where>
+			1=1
+			<if test="req.realName != null and req.realName!=''">
+				and realName like '%${req.realName}%'
+			</if>
+			<if test="req.loginName != null and req.loginName!=''">
+				and loginName = #{req.loginName}
+			</if>
+			<if test="req.email != null and req.email!=''">
+				and email = #{req.email}
+			</if>
+			<if test="req.isDel != null and req.isDel!=''">
+				and isDel = #{req.isDel}
+			</if>
+		</where>
+	</sql>
+	
+	 <update id="updateIsDelForeach" parameterType="com.jiabian.sys.sysuser.request.SysUserReq">
+        	update sys_user
+        	<set>
+        		<if test="#{isDel} != null" >
+                 	isDel = #{isDel} ,
+	            </if> 
+	        	<if test="#{sysUserReq.updateTime} != null" >
+	                 updateTime = #{sysUserReq.updateTime} ,
+	            </if>
+        	</set>
+        	where suserId in
+        	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+            	#{item}
+	        </foreach>  
+   	</update>
+   	
+    <select id="selectUserandRole" resultType="com.jiabian.sys.sysuser.response.SysUserResp" parameterType="java.lang.Long">
+        select *
+        from sys_user u 
+        left join sys_role r on u.roleId=r.roleId where u.suserId=#{suserId,jdbcType=BIGINT}
+    </select>
+    
+    <!-- 根据地区查询相应区域的区域经理 -->
+    <select id="selectSysUserByDistrict" parameterType="com.jiabian.sys.sysuser.request.SysUserReq"
+       resultType ="com.jiabian.sys.sysuser.response.SysUserResp">
+        select * 
+        from sys_user 
+        <where>
+          <choose>
+             <when test="area != null">
+                area=#{area} and roleId=4
+             </when>
+             <when test="city != null">
+                city=#{city} and roleId=4
+             </when>
+             <when test="province !=null">
+                province={province} and roleId=4
+             </when>
+          </choose>
+        </where>
+    </select>
+    
+    <!-- 查询客服列表 -->
+    <select id="selectSereviceList" parameterType="com.jiabian.sys.sysuser.request.SysUserReq" 
+            resultType ="com.jiabian.sys.sysuser.response.SysUserResp">
+      SELECT
+			*
+		FROM
+			sys_user
+		WHERE
+		 <!-- roleId=3 跟数据库对不上。改为52-->
+		 roleId=52
+		<if test="suserId !=null and suserId !='' ">
+		   and suserId=#{suserId}
+		</if> 
+    </select>
+    
+    
+            <!-- 查询推广销售员 -->
+    <select id="selectGeneralize"  parameterType="com.jiabian.base.PagesModel"  resultType="com.jiabian.sys.sysuser.response.SysUserResp">
+    	select 
+		*
+		<include refid="selectGeneralizeCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+    </select>
+    
+    <select id="countGeneralize" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectGeneralizeCondition" />
+	</select>
+	
+	<sql id="selectGeneralizeCondition">
+		from sys_user s		
+		<where>
+			1=1
+			<if test="req.invitationCode != null and req.invitationCode !='' ">
+				and s.invitationCode= #{req.invitationCode}
+			</if>
+			<if test="req.realName != null and req.realName !='' ">
+				and s.realName LIKE "%"#{req.realName}"%"
+			</if>			
+				and s.isDel = 1 
+				and s.roleId in (44,51)
+		</where>		
+	</sql>
+	
+	<select id="selectSysUserInfoByInvitationCode" parameterType="java.lang.String" resultType="com.jiabian.sys.sysuser.response.SysUserResp">
+		SELECT
+			*
+		FROM
+			sys_user
+		WHERE
+			invitationCode = #{invitationCode}		
+	</select>
+    
+    
+
+
+    
+</mapper>

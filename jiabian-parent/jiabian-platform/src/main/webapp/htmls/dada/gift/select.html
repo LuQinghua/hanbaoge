@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>分类</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+		<h3 align="center">编辑礼品信息</h3><br>
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<!-- <div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" href="../gift/toInsert"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加
+						</a>
+					</div>
+				</div> -->
+				<table class="table table-hover table-striped table-bordered" id="equipments">
+					<thead>
+						<tr>
+							<th width="8%" style="text-align: center;">编号</th>
+							<th width="8%" style="text-align: center;">图片</th>
+							<th width="8%" style="text-align: center;">礼品名称</th>
+							<th width="8%" style="text-align: center;">分值</th>
+							<th width="8%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($gift in $res)
+						<tr>
+							<td align="center">$!gift.id</td>
+							<td align="center"><img src='$!gift.img' width="30%"></td>
+							<td align="center">$!gift.name</td>
+							<td align="center">$!gift.value</td>
+							<td align="center">
+								<a class="btn default" href="../gift/selectGiftById?id=${gift.id}"> 
+								   <span class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+								</a>
+								<!-- <a class="btn default" onclick="deleteGift($!gift.id)"> 
+								   <span class="glyphicon glyphicon-remove"></span>&nbsp;删除
+								</a> -->
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteGift(id) {
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../gift/deleteGift?id="+id,
+					success : function(data) {
+						if (data.result > 0) {
+							swal("提示", "删除成功", "success");
+						} else {
+							swal("提示", "删除失败", "warning");
+						}
+						setTimeout("location.href='../gift/giftList'",2000);
+					}
+				});
+			}); 
+		}
+		
+		
+	</script>
+</body>
+</html>

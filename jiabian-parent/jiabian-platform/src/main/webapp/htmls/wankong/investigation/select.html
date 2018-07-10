@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>满意度</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" name="form1" action="../investigation/selectInvestigation" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="row">
+				</div>
+				<table class="table table-hover table-striped table-bordered" >
+					<thead>
+						<tr>
+							
+							<th width="8%" style="text-align: center;">公司名</th>
+							<th width="6%" style="text-align: center;">地址</th>
+							<th width="10%" style="text-align: center;">姓名</th>
+							<th width="5%" style="text-align: center;">电话</th>
+							<th width="3%" style="text-align: center;">型号</th>
+							<th width="3%" style="text-align: center;">质量</th>
+							<th width="3%" style="text-align: center;">价格</th>
+							<th width="3%" style="text-align: center;">包装</th>
+							<th width="3%" style="text-align: center;">内容</th>
+							<th width="3%" style="text-align: center;">时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.companyName
+							</td>
+							<td align="center">$!obj.name</td>
+							<td align="center">$!obj.Telephone</td>
+							<td align="center">$!obj.model</td>
+							
+							<td align="center">
+							#if($!obj.quality==1) 
+                             <span style="color:#006400;">满意</span>
+							#elseif($!obj.quality==2) 
+							<span style="color:#D2691E;">一般</span>
+							#elseif($!obj.quality==3) 
+							<span style="color:red;">不满意</span>
+							#end
+							</td>
+							
+							<td align="center">
+							#if($!obj.price==1) 
+                             <span style="color:#006400;">满意</span>
+							#elseif($!obj.price==2) 
+							<span style="color:#D2691E;">一般</span>
+							#elseif($!obj.price==3) 
+							<span style="color:red;">不满意</span>
+							#end
+							</td>
+							
+							<td align="center">
+							#if($!obj.packing==1) 
+                             <span style="color:#006400;">满意</span>
+							#elseif($!obj.packing==2) 
+							<span style="color:#D2691E;">一般</span>
+							#elseif($!obj.packing==3) 
+							<span style="color:red;">不满意</span>
+							#end
+							</td>
+							
+							<td align="center">
+							#if($!obj.guarantee==1) 
+                             <span style="color:#006400;">满意</span>
+							#elseif($!obj.guarantee==2) 
+							<span style="color:#D2691E;">一般</span>
+							#elseif($!obj.guarantee==3) 
+							<span style="color:red;">不满意</span>
+							#end
+							</td>
+							
+							<td align="center">$!obj.content</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.createTime)</td> 
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteNews(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../news/delet",
+					data : {
+						"id" : id,
+						
+					},
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除失败", "warning");
+						} else {
+							swal("提示", "删除成功", "warning");
+						}
+						setTimeout("location.href='../news/selectNews?type=1'",1000);
+					}
+				});
+			});
+		}	
+		
+		function formSubmit(id,state){
+   			console.info($('#id').val());
+   			$.ajax({
+   				url:"../news/updatpNews",
+   				data : {
+						"id" : id,
+						"state": state,
+					},
+				type : "post",
+				success : function(data){
+					if (data.status == true) {
+					     swal("提示", "成功", "success");
+					     setTimeout("window.location.href = '../news/selectNews?type=1'",2000);
+					}else{
+						swal("提示", "失败", "error");
+					}
+				}
+   			})
+   		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+新增表
+
+addressId       bigint   20   0   收货地址
+logisticsCode   varchar  255  0   物流单号
+sendStatus      tinyint  4    0   配送状态：0.未发货 1.已发货 2.确认收货
+
+ 

@@ -1,0 +1,15 @@
+改名字的表
+
+id         bigint    20    0    主键
+prodName   varchar   50    0    活动商品名称
+prodImg    varchar   255   0    商品图片
+prodText   varchar   250   0    商品描述
+classify   tinyint   10    0    类型（1.数码 2.保健品3.书画4.奢侈品5.电器6.珠宝7.汽                               车8.其他）
+price      decimal   20    2    价格
+creatTime  timestamp 0     0    添加时间
+updateTime timestamp 0     0    修改时间
+isDel      tinyint   4     0    状态（0.未开始1开始2.结束）
+status     tinyint   4     0    状态（0.未开始1开始2.结束）
+startTime  datetime  0     0    活动开始时间
+region     tinyint   4     0    1.(一元区)2.（多元区）
+

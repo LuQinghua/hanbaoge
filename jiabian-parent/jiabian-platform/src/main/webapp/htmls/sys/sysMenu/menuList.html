@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>菜单</title>
+<link href="../content/superui/min/css/superui.common.min.css" rel="stylesheet" />
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link href="../content/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+<link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<link rel="stylesheet" href="../plugin/iCheck/custom.css" type="text/css"></link>
+<!--sweetalert样式-->
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/menu.css" type="text/css"></link>
+</head>
+<body style="background-color:white">
+	<div class="page-container">
+		<div class="page-content">
+			<div class="col-md-4">
+				<div>
+					<div class="btn-group">
+						<a class="btn btn-circle btn-xs  default" data-toggle="confirmation" id="addMenuBtn"
+							onclick="toAddChildrenMenu();"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加子菜单
+						</a>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-circle btn-xs  default" data-toggle="confirmation" id="updateMenuBtn"
+							onclick="toUpdateThisSysMenu();"> <span class="glyphicon glyphicon-pencil"></span>&nbsp;修改本菜单
+						</a>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-circle btn-xs  default" data-toggle="confirmation" id="delMenuBtn"
+							onclick="deleteThisSysMenu();"> <span class="glyphicon glyphicon-remove"></span>&nbsp;删除本菜单
+						</a>
+					</div>
+				</div>
+				<div>
+					<div id="menuJsTree" class="tree-demo"></div>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="wrapper wrapper-content">
+					<!-- 添加菜单 -->
+					#parse("htmls/sys/sysMenu/addMenu.html")
+					<!-- 修改菜单 -->
+					#parse("htmls/sys/sysMenu/updateMenu.html")
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 图标弹窗 -->
+	<div id="menuIconModel" data-width="800" data-height="400" class="modal fade" tabindex="-1" data-backdrop="static"
+		data-keyboard="false">
+		<div class="modal-header">
+			<h4 class="modal-title">
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;添加图标
+			</h4>
+		</div>
+		<div class="modal-body">#parse("htmls/icon/ui_icons.html")</div>
+		<div class="modal-footer" style="text-align: center;">
+			<a data-dismiss="modal" class="btn default" onclick="saveIcon();"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;确定</a>
+			<a data-dismiss="modal" class="btn default"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;关闭</a>
+		</div>
+	</div>
+	<!-- superui脚本 -->
+	<script src="../content/superui/min/js/superui.common.min.js"></script>
+	<script src="../content/plugins/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modal.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+	<!-- sweetalert脚本 -->
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<!-- jstree脚本 -->
+	<script src="../content/plugins/jstree/dist/jstree.min.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$('#menuJsTree').jstree({
+				'core' : {
+					'data' : $menuTree
+				}
+			});
+		});
+
+		var nodePid;
+		var nodeId;
+		var nodeIcon;
+		$('#menuJsTree').on('changed.jstree', function(e, data) {
+			nodePid = data.node.parent;
+			nodeId = data.node.id;
+			nodeIcon = data.node.icon;
+			$('#up_menuParentId').val(nodePid);
+			$('#up_menuId').val(nodeId);
+			$('#add_menuParentId').val(data.node.id);
+			var pNode = $('#menuJsTree').jstree("get_node", data.node.parent); //通过pid获取父节点对象
+			$('input[name=menuParent_span]').attr("disabled", true);
+			$('#add_menuParent_span').val(data.node.text);
+			if (data.node.parent == "#") {
+				$('#up_menuParent_span').val("此菜单为顶级菜单,没有上级菜单");
+				$('#up_menuName').attr("disabled", true);
+				$('#up_menuDesc').attr("disabled", true);
+				$('#up_iconBtn').attr("disabled", true);
+				$('#up_menuState_span').bootstrapSwitch("state", true);
+				$('#up_menuState_span').bootstrapSwitch("disabled", true);
+				$('#updateSubmitBtn').attr("disabled", true);
+			} else {
+				$('#up_menuParent_span').val(pNode.text);
+				$('#up_menuName').attr("disabled", false);
+				$('#up_menuDesc').attr("disabled", false);
+				$('#up_iconBtn').attr("disabled", false);
+				$('#up_menuState_span').bootstrapSwitch("disabled", false);
+				$('#updateSubmitBtn').attr("disabled", false);
+			}
+			$('#up_menuName').val(data.node.text);
+			$('#up_menuDesc').val(data.node.a_attr.menuDesc);
+			$('#up_menuIcon_span').removeClass();
+			$('#up_menuIcon_span').addClass(data.node.icon);
+			$('#up_menuIcon').val(data.node.icon);
+			if (data.node.a_attr.hasChildren == "1") {
+				$('#up_menuUrl').val('');
+				$('#up_menuUrl').attr("disabled", true);
+			} else {
+				$('#up_menuUrl').val(data.node.a_attr.menuUrl);
+				$('#up_menuUrl').attr("disabled", false);
+			}
+			if (data.node.a_attr.menuState == "0") {
+				$('#up_menuState_span').bootstrapSwitch('state', true);
+			} else {
+				$('#up_menuState_span').bootstrapSwitch('state', false);
+			}
+		});
+
+		//添加子菜单按钮
+		function toAddChildrenMenu() {
+			$('#add_menuIcon_span').removeClass();
+			$('#add_menuIcon').val("");
+			if ($('#add_menuParentId').val() != "") {
+				$('#updateMenuDiv').hide();
+				$('#addMenuDiv').show();
+				$('#add_menuParentId').val(nodeId);
+				var pNode = $('#menuJsTree').jstree("get_node", nodeId);
+				$('#add_menuParent_span').val(pNode.text);
+			} else {
+				swal("提示", "请选择添加父节点!", "warning");
+			}
+		}
+
+		//修改本菜单按钮
+		function toUpdateThisSysMenu() {
+			$('#up_menuIcon_span').removeClass();
+			$('#up_menuIcon_span').addClass(nodeIcon);
+			$('#up_menuIcon').val(nodeIcon);
+			if (updateMenuForm.menuId.value != "") {
+				$('#addMenuDiv').hide();
+				$('#updateMenuDiv').show();
+				$('#up_menuParentId').val(nodePid);
+				var pNode = $('#menuJsTree').jstree("get_node", nodePid);
+				if (nodePid == "#") {
+					swal("提示", "顶级菜单不允许修改!", "error");
+					$('#up_menuParent_span').val("此菜单为顶级菜单,没有上级菜单");
+					$('#updateSubmitBtn').attr("disabled", true);
+				} else {
+					$('#up_menuParent_span').val(pNode.text);
+					$('#updateSubmitBtn').attr("disabled", false);
+				}
+			} else {
+				swal("提示", "请选择修改的节点!", "warning");
+			}
+		}
+
+		var iconClass;
+		$('#iconDiv ul li').click(
+				function() {
+					iconClass = $(this).children().attr("class");
+					$(this).css("background-color", "#32c5d2").siblings().css(
+							"background-color", "");
+				});
+
+		function saveIcon() {
+			$('#up_menuIcon_span').removeClass();
+			$('#up_menuIcon_span').addClass(iconClass);
+			$('#up_menuIcon').val(iconClass);
+			$('#add_menuIcon_span').removeClass();
+			$('#add_menuIcon_span').addClass(iconClass);
+			$('#add_menuIcon').val(iconClass);
+		}
+
+		function deleteThisSysMenu() {
+			var delNode = $('#menuJsTree').jstree("get_node", nodeId);
+			if (delNode.a_attr.hasChildren == "1") {
+				swal("提示", "存在子菜单,不允许删除!", "warning");
+			} else {
+				swal({
+					title : "提示",
+					text : "确定删除吗？",
+					type : "warning",
+					showCancelButton : "true",
+					showConfirmButton : "true",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消",
+					animation : "slide-from-top"
+				}, function() {
+					$.ajax({
+						url : "../sysMenu/deleteSysMenu",
+						data : {
+							"menuId" : nodeId
+						},
+						success : function(data) {
+							if (data > 0) {
+								swal("提示", "删除成功", "warning");
+								$('#updateMenuDiv').hide();
+							} else {
+								swal("提示", "删除失败", "warning");
+							}
+						}
+					});
+				});
+			}
+		}
+
+		function updateSysMenu() {
+			if ($('#up_menuState_span').bootstrapSwitch('state')) {
+				updateMenuForm.menuState.value = "0";
+			} else {
+				updateMenuForm.menuState.value = "1";
+			}
+			$.ajax({
+				url : "../sysMenu/updateSysMenu",
+				data : $('#updateMenuForm').serialize(),
+				type : "post",
+				success : function(data) {
+					if (data > 0) {
+						swal("提示", "修改成功", "warning");
+						$('#updateMenuDiv').hide();
+					} else {
+						swal("提示", "修改失败", "warning");
+					}
+				}
+			});
+		}
+		function addMenuForms() {
+			if ($('#add_menuState_span').bootstrapSwitch('state')) {
+				addMenuForm.menuState.value = "0";
+			} else {
+				addMenuForm.menuState.value = "1";
+			}
+			$.ajax({
+				url : "../sysMenu/addSysMenu",
+				data : $('#addMenuForm').serialize(),
+				type : "post",
+				success : function(data) {
+					if (data > 0) {
+						swal("提示", "插入成功", "warning");
+						$('#addMenuDiv').hide();
+					} else {
+						swal("提示", "插入失败", "warning");
+					}
+				}
+			});
+		}
+	</script>
+</body>
+</html>

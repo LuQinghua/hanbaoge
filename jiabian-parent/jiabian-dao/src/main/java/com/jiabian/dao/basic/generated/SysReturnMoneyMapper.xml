@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysReturnMoneyMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysReturnMoney" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="userId" property="userId" jdbcType="BIGINT" />
+        <result column="returnMoney" property="returnMoney" jdbcType="DECIMAL" />
+        <result column="orderCode" property="orderCode" jdbcType="VARCHAR" />
+        <result column="belongPlatform" property="belongPlatform" jdbcType="TINYINT" />
+        <result column="payWay" property="payWay" jdbcType="TINYINT" />
+        <result column="payAccount" property="payAccount" jdbcType="VARCHAR" />
+        <result column="payTime" property="payTime" jdbcType="TIMESTAMP" />
+        <result column="returnStatus" property="returnStatus" jdbcType="TINYINT" />
+        <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+        <result column="dealTime" property="dealTime" jdbcType="TIMESTAMP" />
+        <result column="verifier" property="verifier" jdbcType="BIGINT" />
+        <result column="refundCause" property="refundCause" jdbcType="VARCHAR" />
+        <result column="prodId" property="prodId" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, userId, returnMoney, orderCode, belongPlatform, payWay, payAccount, payTime, 
+        returnStatus, applyTime, dealTime, verifier, refundCause, prodId
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysReturnMoneyQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_returnMoney
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_returnMoney
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysReturnMoney" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_returnMoney (userId, returnMoney, orderCode, 
+            belongPlatform, payWay, payAccount, 
+            payTime, returnStatus, applyTime, 
+            dealTime, verifier, refundCause, 
+            prodId)
+        values (#{userId,jdbcType=BIGINT}, #{returnMoney,jdbcType=DECIMAL}, #{orderCode,jdbcType=VARCHAR}, 
+            #{belongPlatform,jdbcType=TINYINT}, #{payWay,jdbcType=TINYINT}, #{payAccount,jdbcType=VARCHAR}, 
+            #{payTime,jdbcType=TIMESTAMP}, #{returnStatus,jdbcType=TINYINT}, #{applyTime,jdbcType=TIMESTAMP}, 
+            #{dealTime,jdbcType=TIMESTAMP}, #{verifier,jdbcType=BIGINT}, #{refundCause,jdbcType=VARCHAR}, 
+            #{prodId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysReturnMoney" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_returnMoney
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="returnMoney != null" >
+                returnMoney,
+            </if>
+            <if test="orderCode != null" >
+                orderCode,
+            </if>
+            <if test="belongPlatform != null" >
+                belongPlatform,
+            </if>
+            <if test="payWay != null" >
+                payWay,
+            </if>
+            <if test="payAccount != null" >
+                payAccount,
+            </if>
+            <if test="payTime != null" >
+                payTime,
+            </if>
+            <if test="returnStatus != null" >
+                returnStatus,
+            </if>
+            <if test="applyTime != null" >
+                applyTime,
+            </if>
+            <if test="dealTime != null" >
+                dealTime,
+            </if>
+            <if test="verifier != null" >
+                verifier,
+            </if>
+            <if test="refundCause != null" >
+                refundCause,
+            </if>
+            <if test="prodId != null" >
+                prodId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="returnMoney != null" >
+                #{returnMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="orderCode != null" >
+                #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="belongPlatform != null" >
+                #{belongPlatform,jdbcType=TINYINT},
+            </if>
+            <if test="payWay != null" >
+                #{payWay,jdbcType=TINYINT},
+            </if>
+            <if test="payAccount != null" >
+                #{payAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="payTime != null" >
+                #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returnStatus != null" >
+                #{returnStatus,jdbcType=TINYINT},
+            </if>
+            <if test="applyTime != null" >
+                #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dealTime != null" >
+                #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="verifier != null" >
+                #{verifier,jdbcType=BIGINT},
+            </if>
+            <if test="refundCause != null" >
+                #{refundCause,jdbcType=VARCHAR},
+            </if>
+            <if test="prodId != null" >
+                #{prodId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysReturnMoneyQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_returnMoney
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_returnMoney
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.userId != null" >
+                userId = #{record.userId,jdbcType=BIGINT},
+            </if>
+            <if test="record.returnMoney != null" >
+                returnMoney = #{record.returnMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="record.orderCode != null" >
+                orderCode = #{record.orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.belongPlatform != null" >
+                belongPlatform = #{record.belongPlatform,jdbcType=TINYINT},
+            </if>
+            <if test="record.payWay != null" >
+                payWay = #{record.payWay,jdbcType=TINYINT},
+            </if>
+            <if test="record.payAccount != null" >
+                payAccount = #{record.payAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.payTime != null" >
+                payTime = #{record.payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.returnStatus != null" >
+                returnStatus = #{record.returnStatus,jdbcType=TINYINT},
+            </if>
+            <if test="record.applyTime != null" >
+                applyTime = #{record.applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.dealTime != null" >
+                dealTime = #{record.dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.verifier != null" >
+                verifier = #{record.verifier,jdbcType=BIGINT},
+            </if>
+            <if test="record.refundCause != null" >
+                refundCause = #{record.refundCause,jdbcType=VARCHAR},
+            </if>
+            <if test="record.prodId != null" >
+                prodId = #{record.prodId,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update sys_returnMoney
+        set id = #{record.id,jdbcType=BIGINT},
+            userId = #{record.userId,jdbcType=BIGINT},
+            returnMoney = #{record.returnMoney,jdbcType=DECIMAL},
+            orderCode = #{record.orderCode,jdbcType=VARCHAR},
+            belongPlatform = #{record.belongPlatform,jdbcType=TINYINT},
+            payWay = #{record.payWay,jdbcType=TINYINT},
+            payAccount = #{record.payAccount,jdbcType=VARCHAR},
+            payTime = #{record.payTime,jdbcType=TIMESTAMP},
+            returnStatus = #{record.returnStatus,jdbcType=TINYINT},
+            applyTime = #{record.applyTime,jdbcType=TIMESTAMP},
+            dealTime = #{record.dealTime,jdbcType=TIMESTAMP},
+            verifier = #{record.verifier,jdbcType=BIGINT},
+            refundCause = #{record.refundCause,jdbcType=VARCHAR},
+            prodId = #{record.prodId,jdbcType=BIGINT}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysReturnMoney" >
+        update sys_returnMoney
+        <set >
+            <if test="userId != null" >
+                userId = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="returnMoney != null" >
+                returnMoney = #{returnMoney,jdbcType=DECIMAL},
+            </if>
+            <if test="orderCode != null" >
+                orderCode = #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="belongPlatform != null" >
+                belongPlatform = #{belongPlatform,jdbcType=TINYINT},
+            </if>
+            <if test="payWay != null" >
+                payWay = #{payWay,jdbcType=TINYINT},
+            </if>
+            <if test="payAccount != null" >
+                payAccount = #{payAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="payTime != null" >
+                payTime = #{payTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="returnStatus != null" >
+                returnStatus = #{returnStatus,jdbcType=TINYINT},
+            </if>
+            <if test="applyTime != null" >
+                applyTime = #{applyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dealTime != null" >
+                dealTime = #{dealTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="verifier != null" >
+                verifier = #{verifier,jdbcType=BIGINT},
+            </if>
+            <if test="refundCause != null" >
+                refundCause = #{refundCause,jdbcType=VARCHAR},
+            </if>
+            <if test="prodId != null" >
+                prodId = #{prodId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_returnMoney
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysReturnMoneyQueryHelper" >
+        delete from sys_returnMoney
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    
+    
+    <!--抢大运溢出号 退款记录插入 -->
+    <insert id="doInsertQdyRecord" parameterType="com.jiabian.sys.sysreturnmoney.response.SysReturnMoneyRes">
+       INSERT INTO sys_returnMoney (
+			userId,returnMoney,orderCode,belongPlatform,payWay,payAccount,payTime,returnStatus,prodId)
+		VALUES
+			(#{userId},#{spilMoney},#{orderCode},1,#{payWay},#{payAccount},#{payTime},1,#{prodId})
+    </insert>
+  
+</mapper>

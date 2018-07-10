@@ -1,0 +1,7 @@
+新增表
+id          bigint     255   0   主键
+userId      bigint     255   0   用户id
+createTime  timestamp  0     0   创建时间
+updateTime  timestamp  0     0   修改时间
+lawRecord   varchar    1000  0   援助记录
+isDel       tinyint    4     0   是否删除（1：正常 ，2：删除）   默认：1

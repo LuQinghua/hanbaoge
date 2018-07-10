@@ -1,0 +1,12 @@
+新增表
+
+id                bigint     20    0   主键
+invitationCode    varchar    255   0   邀请码
+createTime        timestamp  0     0   创建时间(默认值：CURRENT_TIMESTAMP)
+userId            bigint     20    0   用户Id
+isBuy             tinyint    4     0   是否购买过商品（1.否，2.是）
+status            tinyint    4     0   提现状态：0.待提现   1.申请提现   2.已提现   3.不同意提现  4.不能提现
+isDel             tinyint    4     0   删除（1.正常，2.删除）（默认值：1）
+waterType         tinyint    4     0   流水类型（1：收入    2：提现）
+withdrawMoney     decimal    10    2   提现金额
+withdrawTime      timestamp  0     0   提现时间

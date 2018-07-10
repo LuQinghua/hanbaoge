@@ -1,0 +1,5 @@
+新建表
+
+buyPartake_id     bigint     20   0   不为空                          主键（自增）
+id                bigint     20   0                                   商品id
+buyPartake_time   timestamp  0    0    默认（CURRENT_TIMESTAMP）      抢购时间

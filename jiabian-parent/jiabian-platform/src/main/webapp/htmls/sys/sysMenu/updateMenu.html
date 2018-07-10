@@ -1,0 +1,58 @@
+<div id="updateMenuDiv" class="panel panel-default" style="display: none;">
+	<form id="updateMenuForm" method="post" action="" class="form-horizontal">
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<span class="glyphicon glyphicon-pencil"></span>&nbsp; 修改菜单
+			</h3>
+		</div>
+		<div class="panel-body">
+			<input type="hidden" id="up_menuId" name="menuId">
+			<div class="form-group">
+				<label class="col-lg-3 control-label">上级菜单:</label>
+				<div class="col-lg-4">
+					<input type="hidden" name="menuParentId"> <input type="text" class="form-control" id="up_menuParent_span"
+						name="menuParent_span" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">菜单名称:</label>
+				<div class="col-lg-4">
+					<input type="text" class="form-control" id="up_menuName" name="menuName" placeholder="请输入菜单名称" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">菜单描述:</label>
+				<div class="col-lg-5">
+					<input type="text" class="form-control" id="up_menuDesc" name="menuDesc" placeholder="请输入菜单描述" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">菜单链接:</label>
+				<div class="col-lg-5">
+					<input type="text" class="form-control" id="up_menuUrl" name="menuUrl" placeholder="请输入菜单链接地址" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">菜单图标:</label>
+				<div class="col-lg-5">
+					<span class="col-lg-8"> <input type="hidden" id="up_menuIcon" name="menuIcon" /> <span id="up_menuIcon_span"></span>
+					</span> <span class="col-lg-4"> <a id="up_iconBtn" class="btn default" data-target="#menuIconModel"
+						data-toggle="modal"><span class="glyphicon glyphicon-cog"></span>选择图标</a>
+					</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-lg-3 control-label">菜单状态:</label>
+				<div class="col-lg-5">
+					<input type="hidden" name="menuState"> <input type="checkbox" id="up_menuState_span" name="menuState_span"
+						class="make-switch" data-on-text="&nbsp;显示&nbsp;" data-off-text="&nbsp;隐藏&nbsp;">
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer" style="text-align: center;">
+			<a id="updateSubmitBtn" class="btn default" onclick="updateSysMenu();"><span
+				class="glyphicon glyphicon-ok-sign"></span>&nbsp;确定</a> <a class="btn default"
+				onclick="javascript:$('#updateMenuDiv').hide();"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;关闭</a>
+		</div>
+	</form>
+</div>

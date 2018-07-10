@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.dada.DadaNewsMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.dada.DadaNews" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, img, author, title, content, time, type
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.dada.DadaNewsQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from dadanews
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from dadanews
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.dada.DadaNews" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into dadanews (img, author, title, 
+            content, time, type
+            )
+        values (#{img,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+            #{content,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP}, #{type,jdbcType=TINYINT}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.dada.DadaNews" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into dadanews
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="author != null" >
+                author,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="time != null" >
+                time,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null" >
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="time != null" >
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.dada.DadaNewsQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from dadanews
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update dadanews
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.img != null" >
+                img = #{record.img,jdbcType=VARCHAR},
+            </if>
+            <if test="record.author != null" >
+                author = #{record.author,jdbcType=VARCHAR},
+            </if>
+            <if test="record.title != null" >
+                title = #{record.title,jdbcType=VARCHAR},
+            </if>
+            <if test="record.content != null" >
+                content = #{record.content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.time != null" >
+                time = #{record.time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.type != null" >
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update dadanews
+        set id = #{record.id,jdbcType=BIGINT},
+            img = #{record.img,jdbcType=VARCHAR},
+            author = #{record.author,jdbcType=VARCHAR},
+            title = #{record.title,jdbcType=VARCHAR},
+            content = #{record.content,jdbcType=LONGVARCHAR},
+            time = #{record.time,jdbcType=TIMESTAMP},
+            type = #{record.type,jdbcType=TINYINT}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.dada.DadaNews" >
+        update dadanews
+        <set >
+            <if test="img != null" >
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null" >
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="time != null" >
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from dadanews
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.dada.DadaNewsQueryHelper" >
+        delete from dadanews
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    
+	<select id="countDadaNews" resultType="int" parameterType="com.jiabian.base.PagesModel">
+		select count(*)
+		<include refid="add"></include>
+	</select>
+
+	<select id="selectDadaNews" resultType="com.jiabian.dada.response.DadaNewsRes" 
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="add"></include>
+		<if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="doPage">
+            LIMIT #{limitStart,jdbcType=INTEGER},
+            #{limitNum,jdbcType=INTEGER}
+        </if>
+	</select>
+
+	<sql id="add">
+		from dadanews
+	</sql>
+	
+</mapper>

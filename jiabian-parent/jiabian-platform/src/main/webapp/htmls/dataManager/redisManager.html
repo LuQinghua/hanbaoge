@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8" />
+<title></title>
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/font-awesome.min93e3.css" type="text/css"></link>
+<link rel="stylesheet" href="../plugin/iCheck/custom.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/animate.min.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/xcConfirm.css" type="text/css"></link>
+<!-- 全局主题样式 -->
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+<!-- jstree -->
+<link href="../content/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+<link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+<!--sweetalert样式-->
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/plugins/chosen/chosen.css" type="text/css"></link>
+<link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+</head>
+<body style="background-color:white">
+	<form id="form1" action="../redisData/getRedisValue" method="get" class="form-horizontal">
+		<input type="hidden" name="checkIds" id="checkIds">
+		<div class="wrapper wrapper-content">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="row">
+							<div class="panel panel-default">
+								<div class="panel-heading">查询条件</div>
+								<div class="panel-body">
+									<div class="form-group" style="margin-top:15px">
+										<label class="control-label col-sm-1" for="loginName" style="margin-left:15%">输入key值：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" style="width: 300px;" id="key" name="key">
+										</div>
+										<div class="col-sm-1" style="text-align:left;margin-left:8%">
+											<button id="toCheck" style="margin-left:50px" class="btn btn-primary">
+												<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+											</button>
+											<!-- <input type="button" onclick="saveRedis()"> -->
+										</div>
+										<!-- 清空按钮 -->
+										<div class="col-sm-1" style="text-align:left;margin-left:1%">
+											<a style="margin-left:20px" class="btn btn-primary" onclick="reset();"> <span
+												class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<a class="btn default" href="javascript:void(0);" onclick="batchDel()"> <span
+										class="glyphicon glyphicon-flash"></span>&nbsp;批量删除
+									</a>
+								</div>
+							</div>
+							<table class="table table-hover table-striped table-bordered" id="theTable">
+								<thead>
+									<tr>
+										<th width="10%" style="text-align: center;"><input type="checkbox" class="i-checks" name="selectAll"
+											id="selectAll"></th>
+										<th width="20%" style="text-align: center;">key&nbsp;值</th>
+										<th width="55%" style="text-align: center;">value&nbsp;值</th>
+										<th width="15%" style="text-align: center;">操&nbsp;&nbsp;作</th>
+									</tr>
+								</thead>
+								<tbody>
+									#foreach($obj in $redisList)
+									<tr>
+										<td align="center"><input type="checkbox" class="i-checks" value="$!obj.key" name="selectIt"></td>
+										<td align="center">$!obj.key</td>
+										<td align="center" style="word-break:break-all">$!obj.value</td>
+										<td align="center"><a class='btn btn-default btn green' href="javascript:void(0);"
+											onclick="toDel('$!obj.key')"><span class='glyphicon glyphicon-trash'></span>&nbsp;删&nbsp;除</a></td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script src="../content/superui/min/js/superui.common.min.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modal.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script src="../js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../js/plugins/peity/jquery.peity.min.js"></script>
+	<script src="../js/content.min.js?v=1.0.0"></script>
+	<script src="../js/plugins/iCheck/icheck.min.js"></script>
+	<script src="../content/plugins/jstree/dist/jstree.min.js"></script>
+	<!-- sweetalert脚本 -->
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript" src="../js/plugins/chosen/chosen.jquery.js"></script>
+	<script type="text/javascript" src="../js/evenUtil.js"></script>
+	<script src="../js/pikaday.min.js"></script>
+	<script src="../js/datepickerConfig.js"></script>
+	<!-- 时间插件 -->
+	<script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.i-checks').iCheck({
+				checkboxClass : "icheckbox_square-green",
+				radioClass : "iradio_square-green"
+			});
+		});
+
+		$("#datapicker .input-daterange").datepicker({
+			keyboardNavigation : !1,
+			forceParse : !1,
+			autoclose : !0
+		});
+		if ("$!msg") {
+			swal("提示", "$!msg", "warning");
+		}
+
+		$("#toCheck").click(function() {
+			$("#offset").val(1);
+			$("#form1").submit();
+		});
+
+		//清空查询条件
+		function reset() {
+			$('#key').val("");
+		}
+
+		//添加一条redis数据
+		function saveRedis() {
+			$.ajax({
+				url : "../redisData/saveRedis",
+				type : "post",
+				data : {},
+				success : function(data) {
+
+				}
+			});
+		}
+
+		//删除一条数据
+		function toDel(getKey) {
+			swal({
+				title : "提示",
+				text : "确定删除" + getKey + "吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				location.href = "../redisData/delRedis?key=" + getKey;
+			});
+		}
+
+		//批量删除
+		function batchDel() {
+			var keysArr = []; //声明一个数组
+			$('input[name="selectIt"]:checked').each(function() {
+				keysArr.push($(this).val()); // 获取多选框的值
+			});
+			if (keysArr.length > 0) { // 如果有选中值
+				swal({
+					title : "提示",
+					text : "确定批量删除吗？",
+					type : "warning",
+					showCancelButton : "true",
+					showConfirmButton : "true",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消",
+					animation : "slide-from-top"
+				}, function() {
+					location.href = "../redisData/batchDel?keysArr=" + keysArr;
+				});
+			}
+		}
+	</script>
+</body>
+</html>

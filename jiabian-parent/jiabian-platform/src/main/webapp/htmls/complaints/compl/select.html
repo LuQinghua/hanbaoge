@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>投诉详情</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<div class="modal fade" id="complViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color:#333">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel" style="color:#fff">投诉详情</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="compl_name_static" class="col-sm-4 control-label"><b>被投诉对象：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="compl_name_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="compl_reason_static" class="col-sm-4 control-label style="color: green""><b>被投诉事由：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="compl_reason_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="compl_details_static" class="col-sm-4 control-label"><b>事情经过：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="compl_details_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="compl_img_static" class="col-sm-4 control-label"><b>投诉凭证：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="compl_img_static"></p>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="modal fade" id="userViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color:#333">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel" style="color:#fff">投诉人信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="user_name_static" class="col-sm-4 control-label"><b>姓名：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="user_name_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="user_idcard_static" class="col-sm-4 control-label style="color: green""><b>证件号：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="user_idcard_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="user_tel_static" class="col-sm-4 control-label"><b>电话：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="user_tel_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="user_company_static" class="col-sm-4 control-label"><b>公司：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="user_company_static"></p>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<form id="form1" name="form1" action="../complaints/complaintList" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="panel panel-default">
+					<div class="panel-heading">查询条件</div>
+					<div class="panel-body">
+						<div class="form-group" style="margin-top:15px">
+							<label class="control-label col-sm-1" for="id">投诉编号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" style="width: 200px;" id="id" name="id">
+							</div>
+							<label class="control-label col-sm-1" for="userid">投诉人ID：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" style="width: 200px;" id="userid" name="userid">
+							</div>
+							<label class="control-label col-sm-1" for="status">审核状态：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="status" name="status">
+									<option value=0>全部</option>
+									<option value=1>待审核</option>
+									<option value=2>审核通过</option>
+									<option value=3>审核未通过</option>
+								</select>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<button id="toCheck" type="button" style="margin-left:50px" class="btn btn-primary">
+									<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+								</button>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+									class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" id="complTable">
+					<thead>
+						<tr>
+							<th width="10%" style="text-align: center;">编号</th>
+							<th width="10%" style="text-align: center;">投诉人ID</th>
+							<th width="10%" style="text-align: center;">投诉详情</th>
+							<th width="10%" style="text-align: center;">投诉人信息</th>
+							<th width="10%" style="text-align: center;">状态</th>
+							<th width="10%" style="text-align: center;">投诉时间</th>
+							<th width="10%" style="text-align: center;">审核操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.id</td>
+							<td align="center">$!obj.userid</td>
+							<td align="center">
+								<input type="hidden" id="compName${obj.id}" value=$!obj.compName>
+								<input type="hidden" id="reason${obj.id}" value=$!obj.reason>
+								<input type="hidden" id="details${obj.id}" value=$!obj.details>
+								<input type="hidden" id="img${obj.id}" value=$!obj.img>
+								<a class="btn default" onclick="showComplaintsInfo(${obj.id})"> 
+								   <span class="glyphicon glyphicon-info-sign"></span>&nbsp;明细
+								</a>
+							</td>
+							<td align="center">
+								<input type="hidden" id="name${obj.id}" value=$!obj.name>
+								<input type="hidden" id="idcard${obj.id}" value=$!obj.idcard>
+								<input type="hidden" id="telephone${obj.id}" value=$!obj.telephone>
+								<input type="hidden" id="company${obj.id}" value=$!obj.company>
+								<a class="btn default" onclick="showUserInfo(${obj.id})"> 
+								   <span class="glyphicon glyphicon-eye-open"></span>&nbsp;查看
+								</a>
+							</td>
+							<td align="center">
+								#if($!obj.status==1)
+									待审核
+								#elseif($!obj.status==2)
+									审核通过
+								#elseif($!obj.status==3)
+									审核未通过
+								#end
+							</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss',$!obj.time)</td>
+							<td align="center">
+								#if($!obj.status==1)
+									<a class="btn default" value="2" onclick="updateStatus(this,${obj.id})"> 
+								   		<span class="glyphicon glyphicon-ok-sign"></span>&nbsp;通过
+									</a>
+									<a class="btn default" value="3" onclick="updateStatus(this,${obj.id})"> 
+								   		<span class="glyphicon glyphicon-remove-sign"></span>&nbsp;禁止
+									</a>
+								#else
+									<span style="color:red">审核已完成</span>
+								#end
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function showComplaintsInfo(id){
+			$("#complViewModal p").empty();
+			$("#compl_name_static").text($("#compName"+id).val());
+			var reason;
+			switch($("#reason"+id).val()){
+				case '1': reason = "款项问题"; break;
+				case '2': reason = "事故问题"; break;
+				case '3': reason = "品质问题"; break;
+				case '4': reason = "盗图问题"; break;
+				case '5': reason = "其他问题"; break;
+			}
+			$("#compl_reason_static").text(reason);
+			$("#compl_details_static").text($("#details"+id).val());
+			var imgs = $("#img"+id).val().split(",");
+			for(var i in imgs){
+				$("#compl_img_static").append($("<img src='"+imgs[i]+"' width='60%'>")).append("<br><br>");
+			}		
+			$("#complViewModal").modal({
+				backdrop:"static"
+			});
+		}
+		function showUserInfo(id){
+			$("#userViewModal p").empty();
+			$("#user_name_static").text($("#name"+id).val());
+			$("#user_idcard_static").text($("#idcard"+id).val());
+			$("#user_tel_static").text($("#telephone"+id).val());
+			$("#user_company_static").text($("#company"+id).val());
+			$("#userViewModal").modal({
+				backdrop:"static"
+			});
+		}
+		function updateStatus(obj,id) {
+			var status = $(obj).attr("value");
+			//alert(status + "," + id);
+			swal({
+				title : "提示",
+				text : "确定执行吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../complaints/updateStatus",
+					data:{
+						"status" : status,
+						"id" : id,
+					},
+					type : "post",
+					success : function(data) {
+						if (data.result > 0) {
+							swal("提示", "操作成功", "success");
+						} else {
+							swal("提示", "操作失败", "error");
+						}
+						setTimeout("location.href='../complaints/complaintList'",1000);
+					}
+				});
+			});
+		}
+		//清空查询条件
+		function reset() {
+			$('#id').val("");
+			$('#userid').val("");
+			$('#status').val(0);
+		}
+		$("#toCheck").click(function(){
+			var id = $("#id").val() || "";
+			var userid = $("#userid").val() || "";
+			var status = $("#status").val();
+			var condition = ""
+			if(id!=""){
+				condition += " and id = " + id;
+			}
+			if(userid!=""){
+				condition += " and userid = " + userid;
+			}
+			if(status!=0){
+				condition += " and status = " + status;
+			}
+			if(condition==""){
+				setTimeout("location.href='../complaints/complaintList'",1000);
+				return;
+			}
+			var reqData = {
+				condition: condition,
+			}
+			//alert(condition);
+			$.ajax({
+				url: "../complaints/selectComplaintsByCondition",
+				type: "get",
+				data: reqData,
+				success: function(res){
+					$("#complTable tbody").empty();
+					var queryRes = res.results;
+					if(queryRes != ""){
+						$.each(queryRes,function(index,item){
+							var idTd = $("<td align='center'></td>").append(item.id);
+							var useridTd = $("<td align='center'></td>").append(item.userid);
+							var complDetailTd = $("<td align='center'></td>")
+								.append($("<input type='hidden' id='compName"+item.id+"'>").attr("value",item.compName))
+								.append($("<input type='hidden' id='reason"+item.id+"'>").attr("value",item.reason))
+								.append($("<input type='hidden' id='details"+item.id+"'>").attr("value",item.details))
+								.append($("<input type='hidden' id='img"+item.id+"'>").attr("value",item.img))
+								.append($("<a class='btn default' onclick='showComplaintsInfo("+item.id+")'></a>")
+								.append($("<span class='glyphicon glyphicon-info-sign'></span>")).append("&nbsp;明细"));
+							var userDetailTd = $("<td align='center'></td>")
+								.append($("<input type='hidden' id='name"+item.id+"'>").attr("value",item.name))
+								.append($("<input type='hidden' id='idcard"+item.id+"'>").attr("value",item.idcard))
+								.append($("<input type='hidden' id='telephone"+item.id+"'>").attr("value",item.telephone))
+								.append($("<input type='hidden' id='company"+item.id+"'>").attr("value",item.company))
+								.append($("<a class='btn default' onclick='showUserInfo("+item.id+")'></a>")
+								.append($("<span class='glyphicon glyphicon-eye-open'></span>")).append("&nbsp;查看"));
+							var status = "";
+							switch(item.status){
+								case 1: 
+									status = "待审核"; 
+									break;
+								case 2: 
+									status = "审核通过"; 
+									break;
+								case 3: 
+									status = "审核未通过"; 
+									break;
+							}
+							var statusTd = $("<td align='center'></td>").append(status);
+							var timeTd = $("<td align='center'></td>").append(formatDateTime(new Date(item.time)));
+							var opTd = $("<td align='center'></td>");
+							if(item.status==1){
+								opTd.append($("<a class='btn default' value='2' onclick='updateStatus(this,"+item.id+")'></a>")
+										.append($("<span class='glyphicon glyphicon-ok-sign'></span>")).append("&nbsp;通过"))
+									.append($("<a class='btn default' value='3' onclick='updateStatus(this,"+item.id+")'></a>")
+										.append($("<span class='glyphicon glyphicon-remove-sign'></span>")).append("&nbsp;禁止"));
+							}else{
+								opTd.append($("<span style='color:red'></span>").append("审核已完成"));
+							}
+							$("<tr></tr>").append(idTd)
+							.append(useridTd)
+							.append(complDetailTd)
+							.append(userDetailTd)
+							.append(statusTd)
+							.append(timeTd)
+							.append(opTd)
+							.appendTo("#complTable tbody");
+						});
+					}
+				}
+			});
+		});
+		var formatDateTime = function (date) {  
+            var y = date.getFullYear();  
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;  
+            var d = date.getDate();  
+            d = d < 10 ? ('0' + d) : d;  
+            var h = date.getHours();  
+            h=h < 10 ? ('0' + h) : h;  
+            var minute = date.getMinutes();  
+            minute = minute < 10 ? ('0' + minute) : minute;  
+            var second=date.getSeconds();  
+            second=second < 10 ? ('0' + second) : second;  
+            return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;  
+        };
+	</script>
+</body>
+</html>

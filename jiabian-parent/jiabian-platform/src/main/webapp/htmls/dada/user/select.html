@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>客户</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" name="form1" action="../dadaUser/userList" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="panel panel-default">
+					<div class="panel-heading">查询条件</div>
+					<div class="panel-body">
+						<div class="form-group" style="margin-top:15px">
+							<label class="control-label col-sm-1" for="name">账号：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" style="width: 200px;" id="name" name="name"
+									value="">
+							</div>
+							<label class="control-label col-sm-1" for="openId">OpenId：</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control" style="width: 200px;" id="openId" name="openId" value="">
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<button id="toCheck" type="button" style="margin-left:50px" class="btn btn-primary">
+									<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+								</button>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+									class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" id="usersTable">
+					<thead>
+						<tr>
+							<th width="10%" style="text-align: center;">ID</th>
+							<th width="10%" style="text-align: center;">用户名</th>
+							<th width="10%" style="text-align: center;">OpenId</th>
+							<th width="10%" style="text-align: center;">总积分</th>
+							<th width="10%" style="text-align: center;">积分记录</th>
+							<th width="10%" style="text-align: center;">收货地址</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.id</td>
+							<td align="center">$!obj.name</td>
+							<td align="center">$!obj.openId</td>
+							<td align="center">$!obj.score</td>
+							<td align="center">
+								<a class="btn default" href="../score/getScore?id=$!obj.id"> 
+								   <span class="glyphicon glyphicon-log-in"></span>&nbsp;获得
+								</a>
+								<a class="btn default" href="../award/getAward?id=$!obj.id"> 
+								   <span class="glyphicon glyphicon-log-out"></span>&nbsp;消费
+								</a></td>
+							<td align="center">
+								<a class="btn default" href="../address/getAddress?id=$!obj.id"> 
+								   <span class="glyphicon glyphicon-eye-open"></span>&nbsp;查看
+								</a></td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		//清空查询条件
+		function reset() {
+			$('#name').val("");
+			$('#openId').val("");
+		}
+		$("#toCheck").click(function(){
+			var name = $("#name").val() || "";
+			var openId = $("#openId").val() || "";
+			var condition = ""
+			if(name!=""){
+				condition += " and name like '%" + name + "%'";
+			}
+			if(openId!=""){
+				condition += " and openId = '" + openId + "'";
+			}
+			if(condition==""){
+				setTimeout("location.href='../dadaUser/userList'",1000);
+				return;
+			}
+			var reqData = {
+				condition: condition,
+			}
+			$.ajax({
+				url: "../dadaUser/selectUsersByCondition",
+				type: "get",
+				data: reqData,
+				success: function(res){
+					$("#usersTable tbody").empty();
+					var queryRes = res.results;
+					if(queryRes != ""){
+						$.each(queryRes,function(index,item){
+							var idTd = $("<td align='center'></td>").append(item.id);
+							var nameTd = $("<td align='center'></td>").append(item.name);
+							var openIdTd = $("<td align='center'></td>").append(item.openId);
+							var scoreTd = $("<td align='center'></td>").append(item.score);
+							var scoreViewTd = $("<td align='center'></td>")
+									.append($("<a class='btn default' onclick=''></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-log-in")
+									).append("&nbsp;获得")).append(" ")
+									.append($("<a class='btn default' onclick=''></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-log-out")
+									).append("&nbsp;消费"));
+							var addressTd = $("<td align='center'></td>")
+									.append($("<a class='btn default' onclick=''></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-eye-open")
+									).append("&nbsp;查看"));
+							$("<tr></tr>").append(idTd)
+									.append(nameTd).append(openIdTd).append(scoreTd)
+									.append(scoreViewTd).append(addressTd).appendTo("#usersTable tbody");
+						});
+					}
+				}
+			});
+		});
+	</script>
+</body>
+</html>

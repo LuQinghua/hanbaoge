@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>logManage.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+
+<link rel="shortcut icon" href="../favicon.ico">
+<link href="../css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+<link href="../css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+<link href="../css/animate.min.css" rel="stylesheet">
+<link href="../css/style.min862f.css?v=4.1.0" rel="stylesheet">
+<link href="../css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+</head>
+
+<body style="background-color:white">
+    <form id="form1" action="../sysLog/logList" method="get" class="form-horizontal">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <div class="ibox">
+                         <div class="row">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">查询条件</div>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-1">范围选择：</label>
+                                            <div id="datapicker" class="col-sm-2" style="margin-left: 20px;">
+                                                <div class="input-daterange input-group">
+                                                    <input type="text" class="input-sm form-control" id="startTime" name="startTime" value="$!startTime" /> <span
+                                                        class="input-group-addon">到</span> <input type="text" class="input-sm form-control" id="endTime"
+                                                        name="endTime" value="$!endTime" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1" style="text-align:left;">
+                                                <button id="toCheck" type="button" style="margin-left:50px" class="btn btn-primary">
+                                                    <span class="glyphicon glyphicon-search"></span>&nbsp;查询
+                                                </button>
+                                            </div>
+                                            <div class="col-sm-1" style="text-align:left;">
+                                                <a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+                                                    class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <table class="table table-hover">
+                                    <tbody>
+                                        #foreach($obj in $pagesModel.results)
+                                        <tr>
+                                            <td><span class="col-sm-7">用户:<span style="color: red;">$!obj.realName</span>($!obj.roleName)在【$!date.format('yyyy-MM-dd
+                                                    HH:mm:ss ',$!obj.createTime)】$!obj.logModule$!obj.logContext
+                                            </span><span class="col-sm-5">用户IP:$!obj.userIP</span></span></td>
+                                        </tr>
+                                        #end
+                                    </tbody>
+                                </table>
+                                #parse("htmls/global/listPage.html")
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="../js/jquery.min.js?v=2.1.4"></script>
+    <script src="../js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="../js/content.min.js?v=1.0.0"></script>
+    <script src="../js/plugins/datapicker/bootstrap-datepicker.js"></script>
+    <script>
+        $("#datapicker .input-daterange").datepicker({
+            keyboardNavigation : !1,
+            forceParse : !1,
+            autoclose : !0
+        });
+
+        function reset() {
+            $('#startTime').val("");
+            $('#endTime').val("");
+        }
+
+        $("#toCheck").click(function() {
+            $("#offset").val(1);
+            form1.submit();
+        });
+    </script>
+</body>
+</html>

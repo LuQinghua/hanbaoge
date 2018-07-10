@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>添加角色</title>
+
+<meta name="keywords" content="keyword1,keyword2,keyword3">
+<meta name="description" content="this is my page">
+<meta name="content-type" content="text/html; charset=UTF-8">
+
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css"></link>
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+<!--sweetalert样式-->
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css"></link>
+</head>
+
+<body style="background-color:white">
+
+	<form id="addSysRoleForm" name="addRoleForm" method="post" action="../sysRole/addSysRole" class="form-horizontal m-t">
+		<div class="panel panel-default col-sm-offset-3" style="width: 50%;">
+			<div class="panel-heading">
+				<h4 class="modal-title">
+					<span class="glyphicon glyphicon-plus"></span>&nbsp;添加角色
+				</h4>
+			</div>
+			<div class="panel-body" style="text-align: center;">
+				<div class="form-group">
+					<label class="col-sm-offset-2 col-sm-2 control-label">角色名称:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="roleName" name="roleName" placeholder="请输入角色名称" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-offset-2 col-sm-2 control-label">角色描述:</label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" id="roleDesc" name="roleDesc" placeholder="请输入角色描述" />
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer" style="text-align: center;">
+				<a style="width: 100px;" class="btn default" href="javascript:add();"><span
+					class="glyphicon glyphicon-ok-sign"></span>&nbsp;确定</a> <a style="width: 100px;" class="btn default"
+					href="#" onclick ="javascript:history.go(-1);"><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;返回</a>
+			</div>
+		</div>
+	</form>
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<!-- sweetalert脚本 -->
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function add() {
+			var roleName = $("#roleName").val();
+			var roleDesc = $("#roleDesc").val();
+			if (roleName != "" && roleDesc != "") {
+				$.ajax({
+                    url : "../sysRole/addSysRole",
+                    data : $('#addSysRoleForm').serialize(),
+                    type : "post",
+                    success : function(data) {
+                        if (data > 0) {
+                            swal("提示", "插入成功", "warning");
+                        } else {
+                            swal("提示", "插入失败", "warning");
+                        }
+                        setTimeout("location.href='../sysRole/sysRoleList'",2000);
+                    }
+                });
+			} else {
+				swal("提示", "请填写完整信息", "error");
+			}
+		}
+	</script>
+</body>
+</html>

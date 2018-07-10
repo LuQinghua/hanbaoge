@@ -1,0 +1,5 @@
+coinTime      timestamp  0   0  获得/支出时间（增加）
+coinStatus    tinyint    4   0  支付状态(1.支出 2.收入)
+coinDescribe  varchar    40  0  文字描述
+
+coinPayTime和coinGetTime 删除

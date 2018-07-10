@@ -1,0 +1,9 @@
+新建表
+
+partake_id        bigint     20   0   主键
+partake_num       int        11   0   抢拍码
+partake_time      timestamp  0    0   抢拍时间   默认：CURRENT_TIMESTAMP
+partake_isStatus  tinyint    4    0   是否中奖(1.中奖 2.未中奖)
+prize_id          bigint     20   0   奖项id
+prize_ip          varchar    20   0   ip
+userId            bigint     10   0   用户id

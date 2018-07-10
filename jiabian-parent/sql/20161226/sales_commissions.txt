@@ -1,0 +1,2 @@
+Ôö¼Ó×Ö¶Î
+orderId    bigint    20     0   ¶©µ¥id

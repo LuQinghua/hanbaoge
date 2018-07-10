@@ -1,0 +1,4 @@
+增加字段
+orderId      bigint     20   0   订单id
+auditTime    timestamp  0    0   审核时间
+auditManId   bigint     20   0   审核人id

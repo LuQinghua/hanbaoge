@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.complaints.CommentMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.complaints.Comment" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="compid" property="compid" jdbcType="BIGINT" />
+        <result column="userid" property="userid" jdbcType="BIGINT" />
+        <result column="img" property="img" jdbcType="VARCHAR" />
+        <result column="username" property="username" jdbcType="VARCHAR" />
+        <result column="comment" property="comment" jdbcType="LONGVARCHAR" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, compid, userid, img, username, comment, time
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.complaints.CommentQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from comment
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.complaints.Comment" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into comment (compid, userid, img, 
+            username, comment, time
+            )
+        values (#{compid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{img,jdbcType=VARCHAR}, 
+            #{username,jdbcType=VARCHAR}, #{comment,jdbcType=LONGVARCHAR}, #{time,jdbcType=TIMESTAMP}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.complaints.Comment" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="compid != null" >
+                compid,
+            </if>
+            <if test="userid != null" >
+                userid,
+            </if>
+            <if test="img != null" >
+                img,
+            </if>
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="comment != null" >
+                comment,
+            </if>
+            <if test="time != null" >
+                time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="compid != null" >
+                #{compid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null" >
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="img != null" >
+                #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                #{comment,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="time != null" >
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.complaints.CommentQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update comment
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.compid != null" >
+                compid = #{record.compid,jdbcType=BIGINT},
+            </if>
+            <if test="record.userid != null" >
+                userid = #{record.userid,jdbcType=BIGINT},
+            </if>
+            <if test="record.img != null" >
+                img = #{record.img,jdbcType=VARCHAR},
+            </if>
+            <if test="record.username != null" >
+                username = #{record.username,jdbcType=VARCHAR},
+            </if>
+            <if test="record.comment != null" >
+                comment = #{record.comment,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.time != null" >
+                time = #{record.time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update comment
+        set id = #{record.id,jdbcType=BIGINT},
+            compid = #{record.compid,jdbcType=BIGINT},
+            userid = #{record.userid,jdbcType=BIGINT},
+            img = #{record.img,jdbcType=VARCHAR},
+            username = #{record.username,jdbcType=VARCHAR},
+            comment = #{record.comment,jdbcType=LONGVARCHAR},
+            time = #{record.time,jdbcType=TIMESTAMP}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.complaints.Comment" >
+        update comment
+        <set >
+            <if test="compid != null" >
+                compid = #{compid,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null" >
+                userid = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="img != null" >
+                img = #{img,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="comment != null" >
+                comment = #{comment,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="time != null" >
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from comment
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.complaints.CommentQueryHelper" >
+        delete from comment
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    
+    <select id="countComments" parameterType="com.jiabian.base.PagesModel" resultType="int">
+    	select count(*)
+    	<include refid="add"></include>
+    </select>
+    
+    <select id="selectComments" parameterType="com.jiabian.base.PagesModel" resultType="com.jiabian.tspt.response.CommentRes">
+    	select *
+    	<include refid="add"></include>
+    	<if test="orderBy != null">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="doPage">
+            LIMIT #{limitStart,jdbcType=INTEGER},
+            #{limitNum,jdbcType=INTEGER}
+        </if>
+    </select>
+    
+    <select id="selectCommentsByCondition" parameterType="java.util.Map" resultType="com.jiabian.tspt.response.CommentRes">
+    	select *
+    	<include refid="add"></include>
+    	where true
+    	<if test="condition != ''">
+    		${condition}
+    	</if>
+    	<if test="pagesModel.orderBy != null">
+			ORDER BY ${pagesModel.orderBy}
+		</if>
+		<if test="pagesModel.doPage">
+			LIMIT #{pagesModel.limitStart,jdbcType=INTEGER},
+            #{pagesModel.limitNum,jdbcType=INTEGER}
+		</if>
+    </select>
+    	
+    <sql id="add">
+    	from comment
+    </sql>
+
+</mapper>

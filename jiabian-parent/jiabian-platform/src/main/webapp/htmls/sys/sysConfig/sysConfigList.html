@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/font-awesome.min93e3.css" type="text/css"></link>
+<link rel="stylesheet" href="../plugin/iCheck/custom.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/animate.min.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/xcConfirm.css" type="text/css"></link>
+
+<!-- 全局主题样式 -->
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+<link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+<!-- jstree -->
+<link href="../content/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+
+<!--sweetalert样式-->
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css"></link>
+<link rel="stylesheet" href="../css/plugins/chosen/chosen.css" type="text/css"></link>
+<body style="background-color:white">
+	<form id="form1" action="../sysConfig/sysConfigList" method="get" class="form-horizontal">
+		<input type="hidden" name="checkIds" id="checkIds"> <input type="hidden" name="isDel" id="isDel"
+			value="$!isDel">
+		<div class="wrapper wrapper-content">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="ibox float-e-margins">
+						<div class="row">
+							<div class="panel panel-default">
+								<div class="panel-heading">查询条件</div>
+								<div class="panel-body">
+									<div class="form-group" style="margin-top:15px">
+										<label class="control-label col-sm-1" for="conKey">键：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" style="width: 200px;" name="conKey" id="conKey" value="$!conKey">
+										</div>
+										<label class="control-label col-sm-1" for="conValue">值：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" style="width: 200px;" name="conValue" id="conValue"
+												value="$!conValue">
+										</div>
+										<label class="control-label col-sm-1" for="conForName">配置类型：</label>
+										<div class="col-sm-2">
+											<input type="text" class="form-control" style="width: 200px;" name="conForName" id="conForName"
+												value="$!conForName">
+										</div>
+										<div class="col-sm-1" style="text-align:left;">
+											<button id="toCheck" type="button" style="margin-left:50px" class="btn btn-primary">
+												<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+											</button>
+										</div>
+										<div class="col-sm-1" style="text-align:left;">
+											<a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+												class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<a class="btn default" href="../sysConfig/toAddSysConfig"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加配置
+									</a> <a class="btn default" onclick="deleteSysConfig();"> <span class="glyphicon glyphicon-remove"></span>&nbsp;批量删除
+									</a> #if($!isDel==1) <a class="btn default" onclick="selectDelConfig();"> <span
+										class="glyphicon glyphicon-trash"></span>&nbsp;回收站
+									</a> #elseif($!isDel==2) <a class="btn default" onclick="selectNomalConfig();"> <span
+										class="glyphicon glyphicon-share-alt"></span>&nbsp;返回
+									</a> #end
+								</div>
+							</div>
+							<table class="table table-hover table-striped table-bordered">
+								<thead>
+									<tr>
+										<th style="width:3%;text-align: center;"><input type="checkbox" class="i-checks" name="selectAll"
+											id="selectAll"></th>
+										<th style="text-align: center;">键</th>
+										<th style="text-align: center;">值</th>
+										<th style="text-align: center;">描述</th>
+										<th style="text-align: center;">配置类型</th>
+										<th style="text-align: center;">状态</th>
+										<th style="text-align: center;">操作</th>
+									</tr>
+								</thead>
+								<tbody>
+									#foreach($obj in $pagesModel.results)
+									<tr>
+										<td align="center"><input type="checkbox" #if($!obj.isDel== '2') disabled  #end class="i-checks"
+											value="$!obj.id" name="id"></td>
+										<td align="center">$!obj.conKey</td>
+										<td align="center">
+											<div style="width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">$!obj.conValue</div>
+										</td>
+										<td align="center">$!obj.reMark</td>
+										<td align="center">$!obj.conForName</td>
+										<td align="center">#if($!obj.isDel==1) 正常 #elseif($!obj.isDel==2) <span style="color:red;">已删除</span>
+											#end
+										</td>
+										<td align="center"><a class="btn default" href="../sysConfig/toUpdateSysConfig?id=${obj.id}"> <span
+												class="glyphicon glyphicon-pencil"></span>&nbsp;编辑
+										</a> <a id="setMenuBtn" class="btn default" href="../sysConfig/getConfigDetail?id=${obj.id}"> <span
+												class="glyphicon glyphicon-eye-open"></span>&nbsp;详情
+										</a> #if($!obj.isDel==1) <a class="btn default" onclick="deleteSysConfig('$!obj.id');"> <span
+												class="glyphicon glyphicon-remove"></span>&nbsp;删除
+										</a> #elseif($!obj.isDel==2) <a class="btn default" onclick="revertSysConfig('$!obj.id');"> <span
+												class="glyphicon glyphicon-chevron-down"></span>&nbsp;恢复
+										</a> #end</td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+							#parse("htmls/global/listPage.html");
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script src="../content/superui/min/js/superui.common.min.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modal.js"></script>
+	<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script src="../js/bootstrap.min.js?v=3.3.6"></script>
+	<script src="../js/plugins/peity/jquery.peity.min.js"></script>
+	<script src="../js/content.min.js?v=1.0.0"></script>
+	<script src="../js/plugins/iCheck/icheck.min.js"></script>
+	<script src="../js/demo/peity-demo.min.js"></script>
+	<script src="../js/plugins/chosen/chosen.jquery.js"></script>
+	<script src="../content/plugins/jstree/dist/jstree.min.js"></script>
+	<!-- sweetalert脚本 -->
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript" src="../js/evenUtil.js"></script>
+
+	<script type="text/javascript">
+		$(".i-checks").iCheck({
+			checkboxClass : "icheckbox_square-green"
+		});
+		//删除配置信息
+		function deleteSysConfig(id) {
+			id != null && id != "" ? $('#checkIds').val(id) : getCheckIds();
+			if ($('#checkIds').val() != "") {
+				swal({
+					title : "提示",
+					text : "确定删除吗？",
+					type : "warning",
+					showCancelButton : "true",
+					showConfirmButton : "true",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消",
+					animation : "slide-from-top"
+				}, function() {
+					  $.ajax({
+			              url : "../sysConfig/deleteSysConfig",
+			              data : $('#form1').serialize(),
+			              type : "post",
+			              success : function(data) {
+			                  if (data > 0) {
+			                      swal("提示", "删除成功", "warning");
+			                  } else if(data == 0){
+			                      swal("提示", "删除失败", "warning");
+			                  } else {
+			                      window.location.href ="../sysUser_ToLogin";  
+			                  }
+			                  setTimeout("location.href='../sysConfig/sysConfigList'",2000);
+			              }
+			          });
+				});
+			} else {
+				swal("提示", "请选择要删除的数据!", "warning");
+			}
+		}
+
+		function revertSysConfig(id) {
+			form1.checkIds.value = id;
+			form1.action = "../sysConfig/revertSysConfig";
+			form1.submit();
+		}
+
+		function reset() {
+			$('#conKey').val("");
+			$('#conValue').val("");
+			$('#conForName').val("");
+		}
+
+		function selectDelConfig() {
+			$('#isDel').val(2);
+			form1.submit();
+		}
+
+		function selectNomalConfig() {
+			$('#isDel').val(1);
+			form1.submit();
+		}
+
+		$("#toCheck").click(function() {
+			$("#offset").val(1);
+			form1.submit();
+		});
+	</script>
+</body>
+</html>

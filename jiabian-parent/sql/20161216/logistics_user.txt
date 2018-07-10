@@ -1,0 +1,6 @@
+photograph    varchar   255  0  照片
+address       varchar   255  0  配送人员住址
+idCard        varchar   50   0  身份证号码
+idCardImg     varchar   255  0  身份证照片
+province      bigint    20   0  省
+city          bigint    20   0  市

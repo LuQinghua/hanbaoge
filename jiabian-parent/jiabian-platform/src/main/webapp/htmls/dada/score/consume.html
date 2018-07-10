@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>积分消费记录</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<h2 align="center">积分消费记录</h2>
+	<form id="form1" name="form1" action="../award/getAward?id=$!user.id" method="post" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="row">
+					<div class="col-md-12">
+						<a style="width: 150px;"  class="btn default" href="#" onclick ="location:href='../dadaUser/userList'">
+						<span class="glyphicon glyphicon-backward"></span>&nbsp;返回用户列表</a>
+					</div>
+				</div>
+				<table class="table table-hover" >
+					<thead>
+						<tr>
+							<th width="5%" style="text-align: center;">用户ID</th>
+							<th width="5%" style="text-align: center;">用户名</th>
+							<th width="5%" style="text-align: center;">领取内容</th>
+							<th width="5%" style="text-align: center;">消费积分</th>
+							<th width="8%" style="text-align: center;">时间</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.userid</td>
+							<td align="center">$!user.name</td>
+							<td align="center">
+								#if($!obj.type==1)
+									京东卡
+								#else
+									油卡
+								#end
+							</td>
+							<td align="center">$!obj.consume</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss',$!obj.time)</td> 
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+</body>
+</html>

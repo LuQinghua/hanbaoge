@@ -1,0 +1,5 @@
+新增字段
+
+ 
+logisticsNo        varchar  255  0   物流单号
+logisticsCompany   varchar  50   0   所属物流公司

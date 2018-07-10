@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.dada.AwardMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.dada.Award" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+        <result column="userid" property="userid" jdbcType="BIGINT" />
+        <result column="consume" property="consume" jdbcType="INTEGER" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, type, time, userid, consume
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.dada.AwardQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from award
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from award
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.dada.Award" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into award (type, time, userid, 
+            consume)
+        values (#{type,jdbcType=TINYINT}, #{time,jdbcType=TIMESTAMP}, #{userid,jdbcType=BIGINT}, 
+            #{consume,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.dada.Award" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into award
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="time != null" >
+                time,
+            </if>
+            <if test="userid != null" >
+                userid,
+            </if>
+            <if test="consume != null" >
+                consume,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="time != null" >
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null" >
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="consume != null" >
+                #{consume,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.dada.AwardQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from award
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update award
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.type != null" >
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
+            <if test="record.time != null" >
+                time = #{record.time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.userid != null" >
+                userid = #{record.userid,jdbcType=BIGINT},
+            </if>
+            <if test="record.consume != null" >
+                consume = #{record.consume,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update award
+        set id = #{record.id,jdbcType=BIGINT},
+            type = #{record.type,jdbcType=TINYINT},
+            time = #{record.time,jdbcType=TIMESTAMP},
+            userid = #{record.userid,jdbcType=BIGINT},
+            consume = #{record.consume,jdbcType=INTEGER}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.dada.Award" >
+        update award
+        <set >
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="time != null" >
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userid != null" >
+                userid = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="consume != null" >
+                consume = #{consume,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from award
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.dada.AwardQueryHelper" >
+        delete from award
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+
+	<select id="countAwardById" parameterType="java.util.Map" resultType="int">
+		select count(*)
+		<include refid="add"></include>
+		where userid=#{id}
+	</select>
+	
+	<select id="selectAwardById" parameterType="java.util.Map" resultType="com.jiabian.dada.response.AwardRes">
+		select *
+		<include refid="add"></include>
+		where userid=#{id}
+		<if test="pagesModel.orderBy != null">
+    		order by ${pagesModel.orderBy}
+    	</if>
+    	<if test="pagesModel.doPage">
+    		LIMIT #{pagesModel.limitStart,jdbcType=INTEGER},
+            #{pagesModel.limitNum,jdbcType=INTEGER}
+    	</if>
+    </select>
+    
+	<sql id="add">
+		from award
+	</sql>
+
+</mapper>

@@ -1,0 +1,17 @@
+#iconDiv ul li {
+	border: solid 1px green;
+	width: 5.5%;
+	height: 50px;
+	float:left;
+	text-align: center;
+	line-height:41px;
+	cursor:pointer;
+}
+#iconDiv ul li span{
+	text-align:center;
+	vertical-align:middle;
+	display: inline-block;
+}
+#iconDiv ul li:HOVER {
+	background-color: gray;
+}

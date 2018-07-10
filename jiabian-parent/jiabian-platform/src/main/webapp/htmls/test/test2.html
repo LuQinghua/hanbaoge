@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>test2.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+  </head>
+  
+  <body><h1>test</h1>
+  <p id="txt">母鸡呀</p>
+  <p id="txt2">母鸡呀</p>
+  <p id="txt3">母鸡呀</p>
+  <script src="	js/jquery.min.js"></script>
+  <script type="text/javascript">
+  (function($) {	
+  		$.fn.evenTest=function(options){
+			var defaults={
+					'color':'red',
+					'font-size':'40px',
+// 					'callback':function(){}
+			};
+			var options=$.extend(defaults,options);
+			return this.css(options);
+			$.fn.evenTest.callback=function(){
+				console.info(111);
+			}
+  		}
+  })(jQuery);
+  
+		$('#txt3').evenTest({
+			options:{
+				"color":"blue"
+			},callback:function(a){
+				console.info(a);
+			}
+			
+		});
+  </script>
+  </body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>产品</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" name="form1" action="../home/homeList" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="panel panel-default">
+					<div class="panel-heading">查询条件</div>
+					<div class="panel-body">
+						<div class="form-group" style="margin-top:15px">
+							<label class="control-label col-sm-1" for="name">商品名称：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="name">
+							</div>
+							<label class="control-label col-sm-1" for="classifyId">房型：</label>
+							<div class="col-xs-1">
+								<select class="form-control" id="classifyId" name="classifyId">
+									<option value=0>全部</option>
+									#foreach($classify in $classifys)
+										<option class="classifyId" value="$!classify.id" op-value="$!classify.name">
+											$!classify.name
+										</option>
+									#end
+								</select>
+							</div>
+							<label class="control-label col-sm-1" for="price">按价格：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="price">
+									<option value="">不限</option>
+									<option value="price asc">从低到高 &nbsp;&nbsp;</option>
+									<option value="price desc">从高到低 &nbsp;&nbsp;</option>
+								</select>
+							</div>
+							<label class="control-label col-sm-1" for="time">按时间：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="time">
+									<option value="">不限</option>
+									<option value="time asc">最新发布 &nbsp;&nbsp;</option>
+									<option value="time desc">最早发布 &nbsp;&nbsp;</option>
+								</select>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<button id="toCheck" type="button" style="margin-left:50px" class="btn btn-primary">
+									<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+								</button>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+									class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" href="../home/toInsert"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加
+						</a>
+						<a class="btn default" onclick="delBatch()"> <span class="glyphicon glyphicon-remove">
+							</span>&nbsp;批量删除
+						</a>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" id="homesTable">
+					<thead>
+						<tr>
+							<th width="2%" style="text-align: center;">
+								<input type="checkbox" id="check-all"/>
+							</th>
+							<th width="5%" style="text-align: center;">商品名称</th>
+							<th width="3%" style="text-align: center;">类型</th>
+							<th width="3%" style="text-align: center;">价格(元)</th>
+							<th width="5%" style="text-align: center;">发布时间</th>
+							<th width="3%" style="text-align: center;">容量(人)</th>
+							<th width="3%" style="text-align: center;">面积(平方米)</th>
+							<th width="5%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center"><input type="checkbox" class="child-check" value="$!obj.id"/></td>
+							<td align="center">$!obj.name</td>
+							<td align="center" value="$!obj.classifyId">
+								#foreach($classify in $classifys)
+									#if($!obj.classifyId == $!classify.id)
+										$!classify.name
+									#end
+								#end
+							</td>
+							<td align="center">$!obj.price</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.time)</td>
+							<td align="center">$!obj.peopleNumber</td>
+							<td align="center">$!obj.area</td>
+							<td align="center">
+								<a class="btn default" href="../home/selectHomeById?id=${obj.id}"> 
+								   <span class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+								</a>
+								<a class="btn default" onclick="deleteeHom('$!obj.id')"> 
+								   <span class="glyphicon glyphicon-remove"></span>&nbsp;删除
+								</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteHome(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../home/deleteHome",
+					data : {
+						"id" : id,
+					},
+					type : "post",
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除成功", "warning");
+						} else {
+							swal("提示", "删除失败", "warning");
+						}
+						setTimeout("location.href='../home/homeList'",1000);
+					}
+				});
+			});
+		}	
+		//清空查询条件
+		function reset() {
+			$('#name').val("");
+			$("#classifyId").val(0);
+			$("#price").val("");
+			$("#time").val("");
+		}
+		// 全选/反选
+		$("#check-all").click(function(){
+			$(".child-check").prop("checked",$(this).prop("checked"));
+		});
+		// 单选
+		$(document).on("click",".child-check",function(){
+			var flag = $(".child-check:checked").length == $(".child-check").length;
+			$("#check-all").prop("checked",flag);
+		});
+		// 批量删除
+		function delBatch(){
+			var idList = "";
+			$.each($(".child-check:checked"),function(){
+				idList += $(this).val() + "-";
+			});
+			idList = idList.substring(0, idList.length-1);
+			if(idList != ""){
+				//alert(idList);
+				swal({
+					title : "提示",
+					text : "确定批量删除吗？",
+					type : "warning",
+					showCancelButton : "true",
+					showConfirmButton : "true",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消",
+					animation : "slide-from-top"
+				}, function() {
+					  $.ajax({
+				             url : "../home/delBatchHomes/" + idList,
+				             type : "post",
+				             success : function(data) {
+				            	 //alert(data.result);
+				                 if (data.result > 0) {
+				                     swal("提示", "删除成功", "warning");
+				                 } else {
+				                     swal("提示", "删除失败", "warning");
+				                 }
+				                 setTimeout("location.href='../home/homeList'",1000);
+				             }
+				         });
+				});
+			}else{
+				swal("提示", "请选择要删除的商品!", "warning");
+			}
+		}
+		// 条件查询
+		$("#toCheck").click(function(){
+			var name = $("#name").val() || "";
+			var classifyId = $("#classifyId").val();
+			var price = $("#price").val() || "";
+			var time = $("#time").val() || "";
+			
+			if(name=="" && classifyId==0 && price=="" && time==""){
+				setTimeout("location.href='../home/homeList'",500);
+				return;
+			}
+			var orderBy = "";
+			if("" != price){
+				orderBy += price;
+				if("" != time) orderBy += ", " + time;
+			}else{
+				if("" != time) orderBy += time;
+			}
+			var reqData = {
+				name: name,
+				classifyId: classifyId,
+				orderBy: orderBy
+			};
+			$.ajax({
+				url: "../home/selectHomeByCondition",
+				type: "get",
+				data: reqData,
+				success: function(res){
+					$("#homesTable tbody").empty();
+					var queryRes = res.results;
+					if(queryRes != null && queryRes != ""){
+						$.each(queryRes,function(index,item){
+							var clfId;
+							$(".classifyId").each(function(index,opitem){
+								if(item.classifyId==$(opitem).val()){
+									clfId = $(opitem).attr("op-value");
+								}
+							});
+							var checkTd = $("<td align='center'></td>")
+								.append($("<input type='checkbox' class='child-check'/>")
+								.val(item.id));
+							var nameTd = $("<td align='center'></td>").append(item.name);
+							var classifyIdTd = $("<td align='center'></td>").append(clfId);
+							var priceTd = $("<td align='center'></td>").append(item.price);
+							var timeTd = $("<td align='center'></td>").append(formatDateTime(new Date(item.time)));
+							var peopleNumTd = $("<td align='center'></td>").append(item.peopleNumber);
+							var areaTd = $("<td align='center'></td>").append(item.area);
+							var opTd = $("<td align='center'></td>")
+									.append($("<a class='btn default' onclick='updateQueryHome(this)'></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-pencil")
+									.append("&nbsp;修改")))
+									.append($("<a class='btn default' onclick='delQueryHome(this)'></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-remove")
+									.append("&nbsp;删除")));
+							$("<tr></tr>").append(checkTd)
+									.append(nameTd).append(classifyIdTd)
+									.append(priceTd).append(timeTd)
+									.append(peopleNumTd).append(areaTd)
+									.append(opTd).appendTo($("#homesTable tbody"));
+						});
+					}
+				}
+			});
+		});
+		function delQueryHome(obj){
+			deleteHome($(obj.parentNode.parentNode).find("input").val());
+		}
+		function updateQueryHome(obj){
+			var id = $(obj.parentNode.parentNode).find("input").val()
+			window.location.href="../home/selectHomeById?id=" + id;
+		}
+		var formatDateTime = function (date) {  
+            var y = date.getFullYear();  
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;  
+            var d = date.getDate();  
+            d = d < 10 ? ('0' + d) : d;  
+            var h = date.getHours();  
+            h=h < 10 ? ('0' + h) : h;  
+            var minute = date.getMinutes();  
+            minute = minute < 10 ? ('0' + minute) : minute;  
+            var second=date.getSeconds();  
+            second=second < 10 ? ('0' + second) : second;  
+            return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;  
+        };
+	</script>
+</body>
+</html>

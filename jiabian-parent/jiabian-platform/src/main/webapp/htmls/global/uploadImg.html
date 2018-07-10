@@ -1,0 +1,28 @@
+																<!-- 七牛云上传图片 -->
+<link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css"></link>
+<!-- 图片存放空间 -->
+<input type="hidden" id="domain" value="jbsh/img/">
+<!-- 七牛云外链域名 -->
+<input type="hidden" id="outside" value="http://oe01jrh3d.bkt.clouddn.com/">
+<!-- 同步方式获取uptoken -->
+<!-- <input type="hidden" id="uptoken" value="WFBRXteVx7iWur7uNeLewSMhYUl8Vk4QxgvMODwq:GXIrtULoF_IlHJfBr8EY4vOcHi8=:eyJzY29wZSI6Impic2gvaW1nLyIsImRlYWRsaW5lIjoxNDc3OTA3MzA5fQ=="> -->
+<!-- 异步获取uptoken -->
+<input type="hidden" id="uptoken_url" value="../common/getQNToken">
+<!-- 图片外链 -->
+<input type="hidden" id="picPath" name="picPath">
+<div id="container">
+    <a class="btn btn-info btn-small " id="pickfiles" href="javascript:void(0);" >
+    	<span class="glyphicon glyphicon-upload"></span>
+        <span>选择文件</span>
+    </a>
+</div>
+<script type="text/javascript" src="../plugin/qiniuyun/jquery.min.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/bootstrap.min.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/plupload/moxie.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/plupload/plupload.dev.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/plupload/zh_CN.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/js-sdk-1.0.17/demo/scripts/ui.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/js-sdk-1.0.17/dist/qiniu.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/js-sdk-1.0.17/demo/scripts/highlight.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/uploadImg.js"></script>	
+	

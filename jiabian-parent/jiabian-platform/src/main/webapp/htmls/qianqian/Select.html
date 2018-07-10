@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>内容管理</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" action="../index/qqselectadd?classification=1&port=3" method="get" class="form-horizontal">
+		<input type="hidden" name="id" id="id">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" href="../index/qqinsert"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加
+						</a>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" >
+					<thead>
+						<tr>
+							<th width="10%" style="text-align: center;">标题</th>
+							<th width="10%" style="text-align: center;">内容</th>
+							<th width="10%" style="text-align: center;">图片</th>
+							<th width="10%" style="text-align: center;">位置</th>
+							<th width="10%" style="text-align: center;">添加时间</th>
+							<th width="10%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.headline</td>
+							<td align="center">$!obj.content</td>
+							<td align="center">
+								<div style="width: 60px;">
+									#if($!obj.img && $!obj.img!='') #set($prodImgIndex=$!obj.img.indexOf(",")) #if($!prodImgIndex==-1) <img
+										alt="商品图片" src="$!obj.img" width="100%"> #else <img alt="商品图片"
+										src="$!obj.img.substring(0,$!prodImgIndex)" width="100%"> #end #end
+								</div>
+							</td>
+							<td align="center">
+							#if($!obj.classify==1) 
+                             <span style="color:#228B22;">首页底部</span>
+							#elseif($!obj.classify==2) 
+							<span style="color:	#228B22;">面料</span>
+							#elseif($!obj.classify==3) 
+							<span style="color:	#228B22;">关于</span>
+							#end
+							</td>
+							
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.creatTime)</td>
+							<td align="center"><a class="btn default" href="../index/qqupdate?id=${obj.id}"> <span
+									class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+							</a> <!-- <a class="btn default" onclick="deleteNews('$!obj.id');"> <span class="glyphicon glyphicon-pencil"></span>&nbsp;删除
+							</a> --></td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteNews(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../index/deletadd",
+					data : {
+						"id" : id,
+					},
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除成功", "warning");
+						} else {
+							swal("提示", "删除失败", "warning");
+						}
+						setTimeout("location.href='../index/qqselectadd?classification=1&port=3'",1000);
+					}
+				});
+			});
+		}
+	</script>
+</body>
+</html>

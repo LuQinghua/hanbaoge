@@ -1,0 +1,138 @@
+  																	<!-- 列表分页 -->
+  	<!-- 每页显示条数 -->
+<!--   	<input type="hidden" name="size" id="size" value="$!pagesModel.limitNum"/> -->
+  	<!-- 当前页 -->
+	<input type="hidden" name="offset" id="offset" value="$!pagesModel.currentPage"/>
+	<!-- 总页数 -->
+	<input type="hidden" name="pages" id="pages" value="$!pagesModel.pages">   
+	<!-- 数据总条数 -->
+	<input type="hidden" name="total" id="total" value="$!pagesModel.total">
+	<!-- 最多显示的页数 -->
+	<input type="hidden" name="maxShow" id="maxShow" value="5">
+  	<span id="text"></span>&nbsp;
+  	<select name="size" id="size" style="width: 80px;height: 29px;">
+  		<option value="5">5条每页</option>
+  		<option value="10" selected="selected">10条每页</option>
+  		<option value="15">15条每页</option>
+  		<option value="20">20条每页</option>
+  		<option value="25">25条每页</option>
+  	</select>&nbsp;
+  	<input type="text" name="pnum" id="pnum" style="width:40px;height:29px;">&nbsp;<button type="button" class="btn btn-info" style="width:50px;" onclick="forPage();">跳转</button>
+	<div id="pageDiv" ></div>  	
+    <script src="../js/jquery.min.js?v=2.1.4"></script>
+    <script src="../js/bootstrap.min.js?v=3.3.6"></script>
+    <script type="text/javascript" src="../js/evenUtil.js"></script>
+	<script type="text/javascript">
+		
+		$(function(){
+			var maxShow=$('#maxShow').val();
+		    var pages = $('#pages').val();
+		    var offset = $('#offset').val();
+			
+			$('#text').html('总共'+'<span style=\"color:red;\">'+$('#pages').val()+'</span>'+'页，当前第'  +'<span style=\"color:red;\">'+$('#offset').val()+'</span>'+'页');
+			var txt="";
+			txt+="<ul class=\"pagination\">";
+			txt+="<li><a href=\"javascript:void(0);\"  onclick=\"firstPage();\">首页</a></li>";
+			txt+="<li><a href=\"javascript:void(0);\" onclick=\"prePage();\">上一页</a></li>";
+			var temp = Math.ceil(pages/maxShow);
+			var flag = false;
+			var k;
+			var lastShow = false;
+			for(var i = 0; i < temp;i++){
+		  		if(parseInt(i)*parseInt(maxShow) < offset && offset <= (parseInt(i)*parseInt(maxShow) + parseInt(maxShow))){
+	             	if (i==(parseInt(temp)-parseInt(1))) {
+	             		var lastps=parseInt(pages)-(parseInt(temp)-parseInt(1))*parseInt(maxShow);
+						for(var j = parseInt(i)*parseInt(maxShow);j < (parseInt(i)*parseInt(maxShow) + parseInt(lastps)); j++){
+							txt+="<li><a href=\"javascript:void(0);\" onclick=\"doPage('"+(parseInt(j)+parseInt(1))+"');\">"+(parseInt(j)+parseInt(1))+"</a></li>";
+							offset%maxShow==0 ? k=lastps : k=offset%maxShow ;
+	             		}
+	             		lastShow = true;
+					}else{
+						for(var j = parseInt(i)*parseInt(maxShow)  ;j < (parseInt(i)*parseInt(maxShow) + parseInt(maxShow)) ; j++){
+							txt+="<li><a href=\"javascript:void(0);\" onclick=\"doPage('"+(parseInt(j)+parseInt(1))+"');\">"+(parseInt(j)+parseInt(1))+"</a></li>";
+							offset%maxShow==0 ? k=maxShow : k=offset%maxShow;
+	             		}
+					}
+	           		flag = true;	
+	   			}
+			   if(flag && !lastShow){
+			        txt+="<li><a href=\"javascript:void(0);\">...</a></li>";
+	   				break;
+			   }
+			}
+			txt+="<li><a href=\"javascript:void(0);\" onclick=\"nextPage();\">下一页</a></li>";
+			txt+="<li><a href=\"javascript:void(0);\" onclick=\"lastPage();\">尾页</a></li>";
+			txt+="</ul>";
+			$('#pageDiv').html(txt);
+			//给当前页面加active样式
+			var h=parseInt(k)+parseInt(1);
+			$("#pageDiv ul li:eq("+h+")").addClass("active");
+			//设置不可选按钮样式
+			if (offset==1) {
+				$("#pageDiv ul li:eq(0)").addClass("disabled");
+				$("#pageDiv ul li:eq(0)>a").attr("onclick","return");
+				
+				$("#pageDiv ul li:eq(1)").addClass("disabled");
+				$("#pageDiv ul li:eq(1)>a").attr("onclick","return");
+			}
+			if (offset==pages) {
+				var j=parseInt(k)+parseInt(2);
+				$("#pageDiv ul li:eq("+j+")").addClass("disabled");
+				$("#pageDiv ul li:eq("+j+")>a").attr("onclick","return");
+				
+				$("#pageDiv ul li:eq("+(j+1)+")").addClass("disabled");
+				$("#pageDiv ul li:eq("+(j+1)+")>a").attr("onclick","return");
+			}
+			selected(form1.size,"$!pagesModel.limitNum");
+		});
+		
+		
+		//首页
+		function firstPage(){
+			$('#offset').val('1');
+			form1.submit();
+		}
+		//尾页
+		function lastPage(){
+			$('#offset').val($('#pages').val());
+			form1.submit();
+		}
+		//上一页
+		function prePage(){
+			var offset2=parseInt($('#offset').val())-parseInt(1);
+			$('#offset').val(offset2);
+			form1.submit();
+		}
+		//下一页
+		function nextPage(){
+			var offset2=parseInt($('#offset').val())+parseInt(1);
+			$('#offset').val(offset2);
+			form1.submit();
+		}
+		//数字按钮
+		function doPage(pageValu){
+			if (pageValu!=$('#offset').val()) {
+				$('#offset').val(pageValu);
+				form1.submit();
+			}else{
+				return;
+			}
+		}
+		//跳转到指定页
+		function forPage(){
+			var reg=/^[0-9]*$/; 
+			if ($('#pnum').val()==""||!reg.test($('#pnum').val())) {
+				$('#offset').val('1');
+			}else{
+				if (parseInt($('#pnum').val())>=parseInt($('#pages').val())) {
+					$('#offset').val($('#pages').val());
+				}else if(parseInt($('#pnum').val())<=parseInt(1)){
+					$('#offset').val('1');
+				}else{
+					$('#offset').val($('#pnum').val());
+				}
+			}
+			form1.submit();		
+		}
+		
+	</script>

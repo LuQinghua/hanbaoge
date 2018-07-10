@@ -1,0 +1,6 @@
+新建表
+
+prize_id    bigint   20   0    主键
+prize_name  tinyint  20   0    奖项名称 1.(终极大奖) 2. （幸运奖）3.（幸运号）4（终				极幸运号）
+prodname    varchar  20   0    商品名
+prodimg     varchar  255  0    商品图片

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>分类</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" name="form1" action="" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" href="../classify/toInsert"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加
+						</a> 
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" >
+					<thead>
+						<tr>
+							<th width="8%" style="text-align: center;">编号</th>
+							<th width="6%" style="text-align: center;">类型</th>
+							<th width="10%" style="text-align: center;">发布时间</th>
+							<th width="5%" style="text-align: center;">价格</th>
+							<th width="5%" style="text-align: center;">设备列表</th>
+							<th width="8%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($classify in $classifyList)
+						<tr>
+							<td align="center">$!classify.id</td>
+							<td align="center">$!classify.name</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!classify.createTime)</td> 
+							<td align="center">$!classify.price</td>
+							<td align="center">
+	                            <a class="btn default" href="../equip/getEquipmentsById?id=$!classify.id&cname=$!classify.name"> 
+								   <span class="glyphicon glyphicon-wrench"></span>&nbsp;明细
+								</a>
+							</td>
+							<td align="center">
+	                            <a class="btn default" href="../classify/selectClassifyById?id=$!classify.id"> 
+								   <span class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+								</a>
+								<a class="btn default" onclick="deleteClassify($!classify.id)"> 
+								   <span class="glyphicon glyphicon-remove"></span>&nbsp;删除
+								</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteClassify(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../classify/deleteClassify",
+					data : {
+						"id" : id,
+					},
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除失败", "warning");
+						} else {
+							swal("提示", "删除成功", "success");
+						}
+						setTimeout("location.href='../classify/classifyList'",1000);
+					}
+				});
+			});
+		}	
+		
+		
+	</script>
+</body>
+</html>

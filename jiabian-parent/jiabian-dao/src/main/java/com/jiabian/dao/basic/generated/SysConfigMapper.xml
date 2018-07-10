@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysConfigMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysConfig" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="conKey" property="conKey" jdbcType="VARCHAR" />
+        <result column="conValue" property="conValue" jdbcType="VARCHAR" />
+        <result column="reMark" property="reMark" jdbcType="VARCHAR" />
+        <result column="userId" property="userId" jdbcType="BIGINT" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="isDel" property="isDel" jdbcType="TINYINT" />
+        <result column="conForName" property="conForName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, conKey, conValue, reMark, userId, createTime, updateTime, isDel, conForName
+    </sql>
+	
+	<sql id="config_user_List" >
+        id, conKey, conValue, reMark, userId, c.createTime, c.updateTime, c.isDel, conForName,u.suserId,u.realName,u.loginName,u.email,u.sex
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysConfigQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_config
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    
+    <select id="selectConfigDetail" resultType="com.jiabian.sys.sysconfig.request.SysConfigReq" parameterType="java.lang.Long" >
+        select 
+        <include refid="config_user_List" />
+        from sys_config c
+        inner join sys_user u
+        on c.userId=u.suserId
+        where c.id = #{id,jdbcType=BIGINT}
+    </select>
+    
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysConfig" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_config (conKey, conValue, reMark, 
+            userId, createTime, updateTime, 
+            isDel, conForName)
+        values (#{conKey,jdbcType=VARCHAR}, #{conValue,jdbcType=VARCHAR}, #{reMark,jdbcType=VARCHAR}, 
+            #{userId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+            #{isDel,jdbcType=TINYINT}, #{conForName,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysConfig" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_config
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="conKey != null" >
+                conKey,
+            </if>
+            <if test="conValue != null" >
+                conValue,
+            </if>
+            <if test="reMark != null" >
+                reMark,
+            </if>
+            <if test="userId != null" >
+                userId,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="updateTime != null" >
+                updateTime,
+            </if>
+            <if test="isDel != null" >
+                isDel,
+            </if>
+            <if test="conForName != null" >
+                conForName,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="conKey != null" >
+                #{conKey,jdbcType=VARCHAR},
+            </if>
+            <if test="conValue != null" >
+                #{conValue,jdbcType=VARCHAR},
+            </if>
+            <if test="reMark != null" >
+                #{reMark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="conForName != null" >
+                #{conForName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysConfigQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_config
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    
+    
+    
+       
+   	<select id="selectforPageByParam" resultType="com.jiabian.sys.sysconfig.response.SysConfigResp"
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="selectCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="countforPageByParam" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectCondition" />
+	</select>
+
+	<sql id="selectCondition">
+		from sys_config
+		<!-- 其他查询条件 WHERE -->
+		<where>
+			1=1
+			<if test="req.conKey != null and req.conKey!=''">
+				and conKey like '%${req.conKey}%'
+			</if>
+			<if test="req.conValue != null and req.conValue!=''">
+				and conValue like '%${req.conValue}%'
+			</if>
+			<if test="req.conForName != null and req.conForName!=''">
+				and conForName like '%${req.conForName}%'
+			</if>
+			<if test="req.isDel != null and req.isDel!=''">
+				and isDel = #{req.isDel}
+			</if>
+		</where>
+	</sql>
+    
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_config
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.conKey != null" >
+                conKey = #{record.conKey,jdbcType=VARCHAR},
+            </if>
+            <if test="record.conValue != null" >
+                conValue = #{record.conValue,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reMark != null" >
+                reMark = #{record.reMark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null" >
+                userId = #{record.userId,jdbcType=BIGINT},
+            </if>
+            <if test="record.createTime != null" >
+                createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null" >
+                updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isDel != null" >
+                isDel = #{record.isDel,jdbcType=TINYINT},
+            </if>
+            <if test="record.conForName != null" >
+                conForName = #{record.conForName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+		
+	   <update id="updateIsDelForeach" parameterType="com.jiabian.sys.sysconfig.request.SysConfigReq">
+        	update sys_config
+        	<set>
+        		<if test="#{isDel} != null" >
+                 isDel = #{isDel} ,
+	            </if> 
+	        	<if test="sysConfigReq.updateTime != null" >
+	                 updateTime = #{sysConfigReq.updateTime} ,
+	            </if>
+	            <if test="sysConfigReq.userId != null" >
+	                 userId = #{sysConfigReq.userId} ,
+	            </if>
+        	</set>
+        	where id in
+        	<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">  
+            	#{item}
+	        </foreach>  
+    	</update>
+	
+	
+    <update id="updateByExample" parameterType="map" >
+        update sys_config
+        set id = #{record.id,jdbcType=BIGINT},
+            conKey = #{record.conKey,jdbcType=VARCHAR},
+            conValue = #{record.conValue,jdbcType=VARCHAR},
+            reMark = #{record.reMark,jdbcType=VARCHAR},
+            userId = #{record.userId,jdbcType=BIGINT},
+            createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            isDel = #{record.isDel,jdbcType=TINYINT},
+            conForName = #{record.conForName,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysConfig" >
+        update sys_config
+        <set >
+            <if test="conKey != null" >
+                conKey = #{conKey,jdbcType=VARCHAR},
+            </if>
+            <if test="conValue != null" >
+                conValue = #{conValue,jdbcType=VARCHAR},
+            </if>
+            <if test="reMark != null" >
+                reMark = #{reMark,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null" >
+                userId = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                isDel = #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="conForName != null" >
+                conForName = #{conForName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysConfigQueryHelper" >
+        delete from sys_config
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+
+    <select id="getAllConfiguration" resultType="com.jiabian.beans.basic.SysConfig">
+    select conKey,conValue from sys_config where isDel = 1
+	</select>
+</mapper>

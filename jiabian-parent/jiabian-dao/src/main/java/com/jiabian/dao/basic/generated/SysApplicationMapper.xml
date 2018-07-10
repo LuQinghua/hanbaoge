@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysApplicationMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysApplication" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+        <result column="cardImg" property="cardImg" jdbcType="VARCHAR" />
+        <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="bankName" property="bankName" jdbcType="VARCHAR" />
+        <result column="bankNo" property="bankNo" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="province" property="province" jdbcType="INTEGER" />
+        <result column="city" property="city" jdbcType="INTEGER" />
+        <result column="area" property="area" jdbcType="INTEGER" />
+        <result column="attractInvestment" property="attractInvestment" jdbcType="TINYINT" />
+        <result column="logistics" property="logistics" jdbcType="TINYINT" />
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="isDel" property="isDel" jdbcType="TINYINT" />
+        <result column="subbranchName" property="subbranchName" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="reviewer" property="reviewer" jdbcType="BIGINT" />
+        <result column="reviewTime" property="reviewTime" jdbcType="TIMESTAMP" />
+        <result column="suserId" property="suserId" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        id, name, cardNo, cardImg, mobile, email, address, bankName, bankNo, type, province, 
+        city, area, attractInvestment, logistics, createTime, isDel, subbranchName, status, 
+        updateTime, reviewer, reviewTime, suserId
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysApplicationQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_application
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_application
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysApplication" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_application (name, cardNo, cardImg, 
+            mobile, email, address, 
+            bankName, bankNo, type, 
+            province, city, area, 
+            attractInvestment, logistics, createTime, 
+            isDel, subbranchName, status, 
+            updateTime, reviewer, reviewTime, 
+            suserId)
+        values (#{name,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{cardImg,jdbcType=VARCHAR}, 
+            #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+            #{bankName,jdbcType=VARCHAR}, #{bankNo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+            #{province,jdbcType=INTEGER}, #{city,jdbcType=INTEGER}, #{area,jdbcType=INTEGER}, 
+            #{attractInvestment,jdbcType=TINYINT}, #{logistics,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+            #{isDel,jdbcType=TINYINT}, #{subbranchName,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+            #{updateTime,jdbcType=TIMESTAMP}, #{reviewer,jdbcType=BIGINT}, #{reviewTime,jdbcType=TIMESTAMP}, 
+            #{suserId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysApplication" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_application
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="name != null" >
+                name,
+            </if>
+            <if test="cardNo != null" >
+                cardNo,
+            </if>
+            <if test="cardImg != null" >
+                cardImg,
+            </if>
+            <if test="mobile != null" >
+                mobile,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="address != null" >
+                address,
+            </if>
+            <if test="bankName != null" >
+                bankName,
+            </if>
+            <if test="bankNo != null" >
+                bankNo,
+            </if>
+            <if test="type != null" >
+                type,
+            </if>
+            <if test="province != null" >
+                province,
+            </if>
+            <if test="city != null" >
+                city,
+            </if>
+            <if test="area != null" >
+                area,
+            </if>
+            <if test="attractInvestment != null" >
+                attractInvestment,
+            </if>
+            <if test="logistics != null" >
+                logistics,
+            </if>
+            <if test="createTime != null" >
+                createTime,
+            </if>
+            <if test="isDel != null" >
+                isDel,
+            </if>
+            <if test="subbranchName != null" >
+                subbranchName,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="updateTime != null" >
+                updateTime,
+            </if>
+            <if test="reviewer != null" >
+                reviewer,
+            </if>
+            <if test="reviewTime != null" >
+                reviewTime,
+            </if>
+            <if test="suserId != null" >
+                suserId,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="name != null" >
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null" >
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardImg != null" >
+                #{cardImg,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null" >
+                #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null" >
+                #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="province != null" >
+                #{province,jdbcType=INTEGER},
+            </if>
+            <if test="city != null" >
+                #{city,jdbcType=INTEGER},
+            </if>
+            <if test="area != null" >
+                #{area,jdbcType=INTEGER},
+            </if>
+            <if test="attractInvestment != null" >
+                #{attractInvestment,jdbcType=TINYINT},
+            </if>
+            <if test="logistics != null" >
+                #{logistics,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="subbranchName != null" >
+                #{subbranchName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reviewer != null" >
+                #{reviewer,jdbcType=BIGINT},
+            </if>
+            <if test="reviewTime != null" >
+                #{reviewTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="suserId != null" >
+                #{suserId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysApplicationQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_application
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_application
+        <set >
+            <if test="record.id != null" >
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.name != null" >
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardNo != null" >
+                cardNo = #{record.cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardImg != null" >
+                cardImg = #{record.cardImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mobile != null" >
+                mobile = #{record.mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null" >
+                email = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null" >
+                address = #{record.address,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bankName != null" >
+                bankName = #{record.bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bankNo != null" >
+                bankNo = #{record.bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null" >
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
+            <if test="record.province != null" >
+                province = #{record.province,jdbcType=INTEGER},
+            </if>
+            <if test="record.city != null" >
+                city = #{record.city,jdbcType=INTEGER},
+            </if>
+            <if test="record.area != null" >
+                area = #{record.area,jdbcType=INTEGER},
+            </if>
+            <if test="record.attractInvestment != null" >
+                attractInvestment = #{record.attractInvestment,jdbcType=TINYINT},
+            </if>
+            <if test="record.logistics != null" >
+                logistics = #{record.logistics,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null" >
+                createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.isDel != null" >
+                isDel = #{record.isDel,jdbcType=TINYINT},
+            </if>
+            <if test="record.subbranchName != null" >
+                subbranchName = #{record.subbranchName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null" >
+                status = #{record.status,jdbcType=TINYINT},
+            </if>
+            <if test="record.updateTime != null" >
+                updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.reviewer != null" >
+                reviewer = #{record.reviewer,jdbcType=BIGINT},
+            </if>
+            <if test="record.reviewTime != null" >
+                reviewTime = #{record.reviewTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.suserId != null" >
+                suserId = #{record.suserId,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update sys_application
+        set id = #{record.id,jdbcType=BIGINT},
+            name = #{record.name,jdbcType=VARCHAR},
+            cardNo = #{record.cardNo,jdbcType=VARCHAR},
+            cardImg = #{record.cardImg,jdbcType=VARCHAR},
+            mobile = #{record.mobile,jdbcType=VARCHAR},
+            email = #{record.email,jdbcType=VARCHAR},
+            address = #{record.address,jdbcType=VARCHAR},
+            bankName = #{record.bankName,jdbcType=VARCHAR},
+            bankNo = #{record.bankNo,jdbcType=VARCHAR},
+            type = #{record.type,jdbcType=TINYINT},
+            province = #{record.province,jdbcType=INTEGER},
+            city = #{record.city,jdbcType=INTEGER},
+            area = #{record.area,jdbcType=INTEGER},
+            attractInvestment = #{record.attractInvestment,jdbcType=TINYINT},
+            logistics = #{record.logistics,jdbcType=TINYINT},
+            createTime = #{record.createTime,jdbcType=TIMESTAMP},
+            isDel = #{record.isDel,jdbcType=TINYINT},
+            subbranchName = #{record.subbranchName,jdbcType=VARCHAR},
+            status = #{record.status,jdbcType=TINYINT},
+            updateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+            reviewer = #{record.reviewer,jdbcType=BIGINT},
+            reviewTime = #{record.reviewTime,jdbcType=TIMESTAMP},
+            suserId = #{record.suserId,jdbcType=BIGINT}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysApplication" >
+        update sys_application
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="cardNo != null" >
+                cardNo = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="cardImg != null" >
+                cardImg = #{cardImg,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null" >
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null" >
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="bankName != null" >
+                bankName = #{bankName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankNo != null" >
+                bankNo = #{bankNo,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null" >
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="province != null" >
+                province = #{province,jdbcType=INTEGER},
+            </if>
+            <if test="city != null" >
+                city = #{city,jdbcType=INTEGER},
+            </if>
+            <if test="area != null" >
+                area = #{area,jdbcType=INTEGER},
+            </if>
+            <if test="attractInvestment != null" >
+                attractInvestment = #{attractInvestment,jdbcType=TINYINT},
+            </if>
+            <if test="logistics != null" >
+                logistics = #{logistics,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null" >
+                createTime = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null" >
+                isDel = #{isDel,jdbcType=TINYINT},
+            </if>
+            <if test="subbranchName != null" >
+                subbranchName = #{subbranchName,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="updateTime != null" >
+                updateTime = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reviewer != null" >
+                reviewer = #{reviewer,jdbcType=BIGINT},
+            </if>
+            <if test="reviewTime != null" >
+                reviewTime = #{reviewTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="suserId != null" >
+                suserId = #{suserId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_application
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysApplicationQueryHelper" >
+        delete from sys_application
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+	
+	<select id="selectSysApplication4PagesModel" resultType="com.jiabian.appication.response.SysApplicationRes"
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="selectCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+	
+	<select id="countSysApplication4PagesModel" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectCondition" />
+	</select>
+
+	<sql id="selectCondition">
+		from sys_application 
+		<!-- 其他查询条件 WHERE -->
+		<where>
+			isDel = 1
+			<if test="req.name != null and req.name!=''">
+				and name like '%${req.name}%'
+			</if>
+			<if test="req.cardNo != null and req.cardNo!=''">
+				and cardNo lIKE "%"#{req.cardNo}"%"
+			</if>
+			<if test="req.mobile != null and req.mobile!=''">
+				and mobile lIKE "%"#{req.mobile}"%"
+			</if>
+			<if test="req.email != null and req.email!=''">
+                and email lIKE "%"#{req.email}"%" 
+            </if>
+			<if test="req.status != null and req.status!=''">
+				and status = #{req.status}
+			</if>
+			<if test="req.type != null and req.type!=''">
+                and type = #{req.type}
+            </if>
+		</where>
+	</sql>
+	
+	<select id="selectApplicationSysUserInfo" resultType="com.jiabian.sys.sysuser.response.SysUserResp"
+	parameterType="java.lang.Long">
+		select * from sys_user su
+		left join sys_application sa on sa.suserId=su.suserId
+		where sa.id=#{id}
+	</select>
+</mapper>

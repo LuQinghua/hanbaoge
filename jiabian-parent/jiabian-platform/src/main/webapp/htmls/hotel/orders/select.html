@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>订单</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<div class="modal fade bs-example-modal-sm" id="userViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color:#333366">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel" style="color:#fff">用户信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="id_view_static" class="col-sm-4 control-label"><b>编号：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="id_view_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="name_view_static" class="col-sm-4 control-label"><b>姓名：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="name_view_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="pw_view_static" class="col-sm-4 control-label style="color: green""><b>密码：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="pw_view_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="tel_view_static" class="col-sm-4 control-label"><b>电话：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="tel_view_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="openId_view_static" class="col-sm-4 control-label"><b>opId：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="openId_view_static"></p>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="modal fade" id="homeViewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header" style="background-color:#333366">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel" style="color:#fff">商品信息</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="home_id_static" class="col-sm-4 control-label"><b>编号：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_id_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_name_static" class="col-sm-4 control-label"><b>名称：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_name_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_time_static" class="col-sm-4 control-label style="color: green""><b>发布时间：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_time_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_people_static" class="col-sm-4 control-label"><b>容量：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_people_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_area_static" class="col-sm-4 control-label"><b>面积：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_area_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_type_static" class="col-sm-4 control-label"><b>窗户：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_type_static"></p>
+			    </div>
+			  </div><hr>
+			  <div class="form-group">
+			    <label for="home_breakfast_static" class="col-sm-4 control-label"><b>早餐：</b></label>
+			    <div class="col-sm-8">
+			      <p class="form-control-static" id="home_breakfast_static"></p>
+			    </div>
+			  </div>
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<form id="form1" name="form1" action="../orders/orderList" method="get" class="form-horizontal">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="panel panel-default">
+					<div class="panel-heading">查询条件</div>
+					<div class="panel-body">
+						<div class="form-group" style="margin-top:15px">
+							<label class="control-label col-sm-1" for="orderCode">订单号：</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" style="width: 200px;" id="orderCode" name="username">
+							</div>
+							<label class="control-label col-sm-1" for="type">支付状态：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="type">
+									<option value="">所有</option>
+									<option value="1">未支付 &nbsp;&nbsp;</option>
+									<option value="2">已支付 &nbsp;&nbsp;</option>
+								</select>
+							</div>
+							<label class="control-label col-sm-1" for="state">入住状态：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="state">
+									<option value="">所有</option>
+									<option value="1">未入住 &nbsp;&nbsp;</option>
+									<option value="2">已入住 &nbsp;&nbsp;</option>
+								</select>
+							</div>
+							<label class="control-label col-sm-1" for="refund">退款状态：</label>
+							<div class="col-sm-1">
+								<select class="form-control" id="refund">
+									<option value="">所有</option>
+									<option value="1">未申请 &nbsp;&nbsp;</option>
+									<option value="2">已申请 &nbsp;&nbsp;</option>
+								</select>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<button id="toCheck" type="button" style="margin-left:50px" class="btn btn-success">
+									<span class="glyphicon glyphicon-search"></span>&nbsp;查询
+								</button>
+							</div>
+							<div class="col-sm-1" style="text-align:left;">
+								<a style="margin-left:50px" class="btn btn-default" onclick="reset();"> <span
+									class="glyphicon glyphicon-refresh"></span>&nbsp;清空
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" onclick="delBatch()"> <span class="glyphicon glyphicon-remove">
+							</span>&nbsp;批量删除
+						</a>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" id="ordersTable">
+					<thead>
+						<tr>
+							<th width="2%" style="text-align: center;">
+								<input type="checkbox" id="check-all"/>
+							</th>
+							<th width="5%" style="text-align: center;">订单号</th>
+							<th width="5%" style="text-align: center;">用户ID</th>
+							<th width="5%" style="text-align: center;">商品ID</th>
+							<th width="7%" style="text-align: center;">创建时间</th>
+							<th width="7%" style="text-align: center;">支付时间</th>
+							<th width="3%" style="text-align: center;">支付</th>
+							<th width="3%" style="text-align: center;">入住</th>
+							<th width="3%" style="text-align: center;">退款</th>
+							<th width="3%" style="text-align: center;">天数</th>
+							<th width="3%" style="text-align: center;">价格(元)</th>
+							<th width="5%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">
+								<input type="checkbox" class="child-check" value="$!obj.id"/>
+							</td>
+							<td align="center">$!obj.orderCode</td>
+							<td align="center"><a id="userId" onclick="showUserInfo($!obj.userId)">$!obj.userId</a></td>
+							<td align="center"><a id="homeId" onclick="showHomeInfo($!obj.homeId)">$!obj.homeId</a></td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.createTime)</td> 
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.paymentTime)</td>
+							<td align="center">
+								#if($!obj.type==1)
+									未支付
+								#else
+									已支付
+								#end
+							</td>
+							<td align="center">
+								#if($!obj.state==1)
+									未入住
+								#else
+									已入住
+								#end
+							</td>
+							<td align="center">
+								#if($!obj.refund==1)
+									未申请
+								#else
+									已申请
+								#end
+							</td>
+							<td align="center">$!obj.days</td>
+							<td align="center">$!obj.price</td>
+							<td align="center">
+								<!-- <a class="btn default" href=""> 
+								   <span class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+								</a> -->
+								<a class="btn default" onclick="deleteOrder('$!obj.id')"> 
+								   <span class="glyphicon glyphicon-remove"></span>&nbsp;删除
+								</a>
+							</td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		function deleteOrder(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../orders/deleteOrder",
+					data : {
+						"id" : id,
+					},
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除失败", "warning");
+						} else {
+							swal("提示", "删除成功", "warning");
+						}
+						setTimeout("location.href='../orders/orderList'",1000);
+					}
+				});
+			});
+		}
+		function delQueryOrder(obj){
+			deleteOrder($(obj.parentNode.parentNode).find("input").val());
+		}
+		//清空查询条件
+		function reset() {
+			$('#orderCode').val("");
+			$('#type').val("");
+			$('#state').val("");
+			$('#refund').val("");
+		}
+		// 全选/反选
+		$("#check-all").click(function(){
+			//alert($(this).prop("checked"));
+			$(".child-check").prop("checked",$(this).prop("checked"));
+		});
+		// 单选
+		$(document).on("click",".child-check",function(){
+			//alert($(this).prop("checked"));
+			var flag = $(".child-check:checked").length == $(".child-check").length;
+			$("#check-all").prop("checked",flag);
+		});
+		// 批量删除
+		function delBatch(){
+			var idList = "";
+			$.each($(".child-check:checked"),function(){
+				idList += $(this).val() + "-";
+			});
+			idList = idList.substring(0, idList.length-1);
+			if(idList != ""){
+				//alert(idList);
+				swal({
+					title : "提示",
+					text : "确定批量删除吗？",
+					type : "warning",
+					showCancelButton : "true",
+					showConfirmButton : "true",
+					confirmButtonText : "确定",
+					cancelButtonText : "取消",
+					animation : "slide-from-top"
+				}, function() {
+					  $.ajax({
+				             url : "../orders/deleteBatchOrders/" + idList,
+				             type : "post",
+				             success : function(res) {
+				                 if (res.data) {
+				                     swal("提示", "删除成功", "warning");
+				                 } else {
+				                     swal("提示", "删除失败", "warning");
+				                 }
+				                 setTimeout("location.href='../orders/orderList'",1000);
+				             }
+				         });
+				});
+			}else{
+				swal("提示", "请选择要删除的用户!", "warning");
+			}
+		}
+		$("#toCheck").click(function(){
+			var orderCode = $("#orderCode").val() || "";
+			var type = $("#type").val();
+			var state = $("#state").val();
+			var refund = $("#refund").val();
+			if(orderCode=="" && type=="" && state=="" && refund==""){
+				setTimeout("location.href='../orders/orderList'",500);
+				return;
+			}
+			if(type!="") type = " and type = " + type;
+			if(state!="") state = " and state = " + state;
+			if(refund!="") refund = " and refund = " + refund;
+			var condition = type + state + refund;
+			var reqData = {
+				orderCode : orderCode,
+				condition : condition,
+			};
+			//alert(condition);
+			$.ajax({
+				url: "../orders/selecOrdersByCondition",
+				type: "get",
+				data: reqData,
+				success: function(res){
+					$("#ordersTable tbody").empty();
+					var queryRes = res.results;
+					if(queryRes != ""){
+						$.each(queryRes,function(index,item){
+							var checkTd = $("<td align='center'></td>")
+								.append($("<input type='checkbox' class='child-check'/>")
+								.val(item.id));
+							var orderCodeTd = $("<td align='center'></td>").append(item.orderCode);
+							var userIdTd = $("<td align='center'></td>")
+								.append($("<a onclick='showQueryUserInfo(this)'></a>").append(item.userId));
+							var homeIdTd = $("<td align='center'></td>")
+								.append($("<a onclick='showQueryHomeInfo(this)'></a>").append(item.homeId));
+							var createTimeTd = $("<td align='center'></td>").append(formatDateTime(new Date(item.createTime)));
+							var paymentTimeTd = $("<td align='center'></td>").append(item.paymentTime==null?"":formatDateTime(new Date(item.paymentTime)));
+							var typeTd = $("<td align='center'></td>").append(item.type==1?'未支付':'已支付');
+							var stateTd = $("<td align='center'></td>").append(item.state==1?'未入住':'已入住');
+							var refundTd = $("<td align='center'></td>").append(item.refund==1?'未申请':'已申请');
+							var daysTd = $("<td align='center'></td>").append(item.days);
+							var priceTd = $("<td align='center'></td>").append(item.price);
+							var opTd = $("<td align='center'></td>")
+									.append($("<a class='btn default' onclick='delQueryOrder(this)'></a>")
+									.append($("<span></span>").addClass("glyphicon glyphicon-remove")
+									.append("&nbsp;删除")));
+							$("<tr></tr>").append(checkTd).append(orderCodeTd)
+							.append(userIdTd)
+							.append(homeIdTd).append(createTimeTd)
+							.append(paymentTimeTd).append(typeTd)
+							.append(stateTd).append(refundTd)
+							.append(daysTd).append(priceTd)
+							.append(opTd).appendTo($("#ordersTable tbody"));
+						});
+					}
+				}
+			});
+		});
+		function showUserInfo(id){
+			$("#userViewModal p").empty();
+			$.ajax({
+				url : "../users/selectUserById?id="+id,
+				success: function(res){
+					//console.log(res);
+					$("#id_view_static").html(res.id);
+					$("#name_view_static").html(res.username);
+					$("#pw_view_static").html(res.password);
+					$("#tel_view_static").html(res.telephone);
+					$("#openId_view_static").html(res.openId);
+				}
+			});
+			$("#userViewModal").modal({
+				backdrop:"static"
+			});
+		}
+		function showHomeInfo(id){
+			$("#homeViewModal p").empty();
+			$.ajax({
+				url : "../home/queryHomeById?id="+id,
+				success: function(res){
+					console.log(res);
+					$("#home_id_static").html(res.id);
+					$("#home_name_static").html(res.name);
+					$("#home_time_static").html(formatDateTime(new Date(res.time)));
+					$("#home_people_static").html(res.peopleNumber+" 人");
+					$("#home_area_static").html(res.area+" 平方米");
+					$("#home_type_static").html(res.type==1?"有":"无");
+					$("#home_breakfast_static").html(res.breakfast==1?"提供":"不提供");
+				}
+			});
+			$("#homeViewModal").modal({
+				backdrop:"static"
+			});
+		}
+		function showQueryUserInfo(obj){
+			showUserInfo($(obj).html());
+		}
+		function showQueryHomeInfo(obj){
+			showHomeInfo($(obj).html());
+		}
+		var formatDateTime = function (date) {  
+            var y = date.getFullYear();  
+            var m = date.getMonth() + 1;  
+            m = m < 10 ? ('0' + m) : m;  
+            var d = date.getDate();  
+            d = d < 10 ? ('0' + d) : d;  
+            var h = date.getHours();  
+            h=h < 10 ? ('0' + h) : h;  
+            var minute = date.getMinutes();  
+            minute = minute < 10 ? ('0' + minute) : minute;  
+            var second=date.getSeconds();  
+            second=second < 10 ? ('0' + second) : second;  
+            return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;  
+        };
+	</script>
+</body>
+</html>

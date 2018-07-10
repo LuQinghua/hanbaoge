@@ -1,0 +1,2 @@
+增加字段
+isFirstLogin  tinyint   4   0   是否第一次登陆   0：否  1：是  （默认值：0）

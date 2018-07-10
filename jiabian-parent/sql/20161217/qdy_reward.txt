@@ -1,0 +1,9 @@
+新建表
+
+id              bigint   20   0  中奖id（主键）
+reward_phase    bigint   20   0  期数
+reward_time     varchar  20   0  最后一名抢拍时间
+prize_id        bigint   20   0  奖项id
+goods_id        bigint   20   0  商品Id
+userId         	bigint   20   0  用户id
+reward_NO       varchar  20   0  中奖号码

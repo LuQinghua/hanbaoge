@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiabian.dao.basic.SysRoleMapper" >
+    <resultMap id="BaseResultMap" type="com.jiabian.beans.basic.SysRole" >
+        <id column="roleId" property="roleId" jdbcType="BIGINT" />
+        <result column="roleName" property="roleName" jdbcType="VARCHAR" />
+        <result column="roleAuth" property="roleAuth" jdbcType="TINYINT" />
+        <result column="roleDesc" property="roleDesc" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Update_By_Example_Where_Clause" >
+        <where >
+            <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+    <sql id="Base_Column_List" >
+        roleId, roleName, roleAuth, roleDesc
+    </sql>
+
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.jiabian.beans.basic.SysRoleQueryHelper" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_role
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select 
+        <include refid="Base_Column_List" />
+        from sys_role
+        where roleId = #{roleId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jiabian.beans.basic.SysRole" >
+        <selectKey resultType="java.lang.Long" keyProperty="roleId" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_role (roleName, roleAuth, roleDesc
+            )
+        values (#{roleName,jdbcType=VARCHAR}, #{roleAuth,jdbcType=TINYINT}, #{roleDesc,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.jiabian.beans.basic.SysRole" >
+        <selectKey resultType="java.lang.Long" keyProperty="roleId" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_role
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="roleName != null" >
+                roleName,
+            </if>
+            <if test="roleAuth != null" >
+                roleAuth,
+            </if>
+            <if test="roleDesc != null" >
+                roleDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="roleName != null" >
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleAuth != null" >
+                #{roleAuth,jdbcType=TINYINT},
+            </if>
+            <if test="roleDesc != null" >
+                #{roleDesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="countByExample" parameterType="com.jiabian.beans.basic.SysRoleQueryHelper" resultType="java.lang.Integer" >
+        select count(*) from sys_role
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+
+    <update id="updateByExampleSelective" parameterType="map" >
+        update sys_role
+        <set >
+            <if test="record.roleId != null" >
+                roleId = #{record.roleId,jdbcType=BIGINT},
+            </if>
+            <if test="record.roleName != null" >
+                roleName = #{record.roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.roleAuth != null" >
+                roleAuth = #{record.roleAuth,jdbcType=TINYINT},
+            </if>
+            <if test="record.roleDesc != null" >
+                roleDesc = #{record.roleDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByExample" parameterType="map" >
+        update sys_role
+        set roleId = #{record.roleId,jdbcType=BIGINT},
+            roleName = #{record.roleName,jdbcType=VARCHAR},
+            roleAuth = #{record.roleAuth,jdbcType=TINYINT},
+            roleDesc = #{record.roleDesc,jdbcType=VARCHAR}
+        <if test="_parameter != null" >
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiabian.beans.basic.SysRole" >
+        update sys_role
+        <set >
+            <if test="roleName != null" >
+                roleName = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleAuth != null" >
+                roleAuth = #{roleAuth,jdbcType=TINYINT},
+            </if>
+            <if test="roleDesc != null" >
+                roleDesc = #{roleDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where roleId = #{roleId,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+        delete from sys_role
+        where roleId = #{roleId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteByExample" parameterType="com.jiabian.beans.basic.SysRoleQueryHelper" >
+        delete from sys_role
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    
+    <select id="selectforPageByParam" resultType="com.jiabian.sys.sysrole.response.SysRoleResp"
+		parameterType="com.jiabian.base.PagesModel">
+		select *
+		<include refid="selectCondition" />
+		<if test="orderBy != null">
+			ORDER BY ${orderBy}
+		</if>
+
+		<if test="doPage">
+			LIMIT #{limitStart,jdbcType=INTEGER},
+			#{limitNum,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="countforPageByParam" resultType="java.lang.Integer"
+		parameterType="com.jiabian.base.PagesModel">
+		select count(1)
+		<include refid="selectCondition" />
+	</select>
+
+	<sql id="selectCondition">
+		from sys_role
+		<!-- 其他查询条件 WHERE -->
+		<where>
+			1=1
+			<if test="req.roleName != null and req.roleName!=''">
+				and roleName like '%${req.roleName}%'
+			</if>
+		</where>
+	</sql>
+
+</mapper>

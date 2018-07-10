@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>选择分类</title>
+    <meta name="content-type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css"></link>
+    <link rel="stylesheet" href="../css/font-awesome.min93e3.css" type="text/css"></link>
+    <link rel="stylesheet" href="../plugin/iCheck/custom.css" type="text/css"></link>
+    <link rel="stylesheet" href="../css/animate.min.css" type="text/css"></link>
+    <link rel="stylesheet" href="../css/style.min862f.css" type="text/css"></link>
+    <link rel="stylesheet" href="../css/xcConfirm.css" type="text/css"></link>
+    <link rel="stylesheet" href="../css/pikaday.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/dist/css/wangEditor.min.css">
+    <!-- 全局主题样式 -->
+    <link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+    <link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" />
+    <link href="../content/superui/base/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" />
+    <!-- jstree -->
+    <link href="../content/plugins/jstree/dist/themes/default/style.min.css" rel="stylesheet" />
+    <link href="../css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <!--sweetalert样式-->
+   	<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css"></link>
+   	<link rel="stylesheet" href="../css/plugins/chosen/chosen.css" type="text/css"></link>
+  	</head>
+  <body>
+  <body style="background-color:white">
+<form id="addUserForm" name="addUserForm" method="post" class="form-horizontal m-t">
+<input  type="hidden" id="type" name="type" class="form-control"type="text" value="1">
+<div class="panel panel-default col-sm-offset-3" style="width: 40%;">
+<div class="panel-heading">
+    <h4 class="modal-title"><span class="glyphicon glyphicon-plus"></span>&nbsp;选择分类</h4>
+</div>
+        #foreach($obj in $pagesModel.results)
+		<div class="panel-footer" style="text-align: center;">
+			<a style="width: 40%;"  class="btn default" href="../classify/insertClassifyV2?id=${obj.id}">$!obj.name</a>
+		</div>
+		#end
+</div>
+</form>
+<script src="../content/superui/min/js/superui.common.min.js"></script>
+<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modal.js"></script>
+<script src="../content/superui/base/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+<script src="../js/jquery.min.js?v=2.1.4"></script>
+<script src="../js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../js/plugins/peity/jquery.peity.min.js"></script>
+<script src="../js/content.min.js?v=1.0.0"></script>
+<script src="../js/plugins/iCheck/icheck.min.js"></script>
+<script src="../js/demo/peity-demo.min.js"></script>
+<script src="../js/plugins/chosen/chosen.jquery.js"></script>
+<script src="../content/plugins/jstree/dist/jstree.min.js"></script>
+<!-- sweetalert脚本 -->
+<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+<script type="text/javascript" src="../plugin/qiniuyun/qiNiuYunUpload.js"></script> 
+<script type="text/javascript" src="../js/dist/js/lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../js/dist/js/wangEditor.min.js"></script>
+<!-- 富文本编辑器七妞云上传 --> 
+<script type="text/javascript" src="../js/wangEditorQiniuyun.js"></script> 
+    
+  </body>
+</html>
+
+
+
+
+
+

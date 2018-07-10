@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>产品管理</title>
+<link rel="stylesheet" href="../css/bootstrap.min14ed.css" type="text/css">
+<link rel="stylesheet" href="../css/style.min862f.css" type="text/css">
+<link href="../content/superui/global/css/components.min.css" id="style_components" rel="stylesheet" />
+<link rel="stylesheet" href="../plugin/sweetalert/sweetalert.css" type="text/css">
+<style>
+.manage_obj {
+	width: 326px;
+	height: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.manage_obj p {
+	margin: 0;
+}
+
+.manage_obj img {
+	max-width: 30% !important;
+	max-height: 50px !important;
+}
+</style>
+</head>
+<body style="background-color:white">
+	<form id="form1" action="../index/selectproduct" method="get" class="form-horizontal">
+		<input type="hidden" name="id" id="id">
+		<div class="page-container">
+			<div class="ibox float-e-margins">
+				<div class="row">
+					<div class="col-sm-12">
+						<a class="btn default" href="../index/insertprod"> <span class="glyphicon glyphicon-plus"></span>&nbsp;添加
+						</a>
+					</div>
+				</div>
+				<table class="table table-hover table-striped table-bordered" >
+					<thead>
+						<tr>
+							<th width="10%" style="text-align: center;">产品名</th>
+							<th width="10%" style="text-align: center;">图片</th>
+							<th width="10%" style="text-align: center;">所在分类</th>
+							<th width="10%" style="text-align: center;">颜色</th>
+							<th width="10%" style="text-align: center;">风格</th>
+							<th width="10%" style="text-align: center;">材质</th>
+							<th width="10%" style="text-align: center;">添加时间</th>
+							<th width="10%" style="text-align: center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						#foreach($obj in $pagesModel.results)
+						<tr>
+							<td align="center">$!obj.imgName</td>
+							<td align="center">
+								<div style="width: 60px;">
+									#if($!obj.img && $!obj.img!='') #set($prodImgIndex=$!obj.img.indexOf(",")) #if($!prodImgIndex==-1) <img
+										alt="商品图片" src="$!obj.img" width="100%"> #else <img alt="商品图片"
+										src="$!obj.img.substring(0,$!prodImgIndex)" width="100%"> #end #end
+								</div>
+							</td>
+							<td align="center">
+							#if($!obj.classify==1) 
+                             <span style="color:#228B22;">真丝T恤</span>
+                             #elseif($!obj.classify==14) 
+							<span style="color:	#228B22;">真丝衬衫</span>
+							
+							#elseif($!obj.classify==2) 
+							<span style="color:	#228B22;">安全裤/短裤</span>
+							#elseif($!obj.classify==15) 
+							<span style="color:	#228B22;">打底裤/七分裤</span>
+							#elseif($!obj.classify==16) 
+							<span style="color:	#228B22;">九分裤</span>
+							#elseif($!obj.classify==17) 
+							<span style="color:	#228B22;">长裤</span>
+							
+							#elseif($!obj.classify==3) 
+							<span style="color:	#228B22;">短款防晒衣</span>
+							#elseif($!obj.classify==18) 
+							<span style="color:	#228B22;">中长款防晒衣</span>
+							
+							#elseif($!obj.classify==4) 
+							<span style="color:	#228B22;">衬裙/短裙</span>
+							#elseif($!obj.classify==19) 
+							<span style="color:	#228B22;">沙滩裙/中长裙</span>
+							#elseif($!obj.classify==5) 
+							<span style="color:	#228B22;">真丝连衣裙</span>
+							
+							#elseif($!obj.classify==6) 
+							<span style="color:	#228B22;">短吊带</span>
+							#elseif($!obj.classify==20) 
+							<span style="color:	#228B22;">中长吊带</span>
+							
+							#elseif($!obj.classify==7) 
+							<span style="color:	#228B22;">真丝枕巾</span>
+							#elseif($!obj.classify==8) 
+							<span style="color:	#228B22;">真丝口罩</span>
+							#elseif($!obj.classify==9) 
+							<span style="color:	#228B22;">真丝内衣</span>
+							#elseif($!obj.classify==10) 
+							<span style="color:	#228B22;">真丝丝巾</span>
+							#elseif($!obj.classify==11) 
+							<span style="color:	#228B22;">真丝袖套</span>
+							#elseif($!obj.classify==12) 
+							<span style="color:	#228B22;">真丝面膜</span>
+							#elseif($!obj.classify==13) 
+							<span style="color:	#228B22;">特惠清仓</span>
+							#elseif($!obj.classify==30) 
+							<span style="color:	#228B22;">新品专区</span>
+							#end
+							</td>
+							<td align="center">
+							#if($!obj.colour==1) 
+                             <span style="color:#228B22;">黑色</span>
+							#elseif($!obj.colour==2) 
+							<span style="color:	#228B22;">白色</span>
+							#elseif($!obj.colour==3) 
+							<span style="color:	#228B22;">红色</span>
+							#elseif($!obj.colour==21) 
+							<span style="color:	#228B22;">蓝色</span>
+							#elseif($!obj.colour==22) 
+							<span style="color:	#228B22;">绿色</span>
+							#elseif($!obj.colour==23) 
+							<span style="color:	#228B22;">棕色</span>
+							#elseif($!obj.colour==24) 
+							<span style="color:	#228B22;">黄色</span>
+							#elseif($!obj.colour==25) 
+							<span style="color:	#228B22;">紫色</span>
+							#elseif($!obj.colour==26) 
+							<span style="color:	#228B22;">橙色</span>
+							#elseif($!obj.colour==27) 
+							<span style="color:	#228B22;">其他</span>
+							#end
+							</td>
+							<td align="center">
+							#if($!obj.style==1) 
+                             <span style="color:#228B22;">通勤</span>
+							#elseif($!obj.style==2) 
+							<span style="color:	#228B22;">百搭</span>
+							#elseif($!obj.style==3) 
+							<span style="color:	#228B22;">简约</span>
+							#elseif($!obj.style==4) 
+							<span style="color:	#228B22;">街头</span>
+							#elseif($!obj.style==5) 
+							<span style="color:	#228B22;">欧美</span>
+							#elseif($!obj.style==28) 
+							<span style="color:	#228B22;">其他</span>
+							#end
+							</td>
+							<td align="center">
+							#if($!obj.material==1) 
+                             <span style="color:#228B22;">蚕丝</span>
+							#elseif($!obj.material==2) 
+							<span style="color:	#228B22;">双皱</span>
+							#elseif($!obj.material==29) 
+							<span style="color:	#228B22;">其他</span>
+							#end
+							</td>
+							<td align="center">$!date.format('yyyy-MM-dd HH:mm:ss ',$!obj.creatTime)</td>
+							<td align="center"><a class="btn default" href="../index/updatpraod?id=${obj.id}"> <span
+									class="glyphicon glyphicon-pencil"></span>&nbsp;修改
+							</a> <a class="btn default" onclick="deleteNews('$!obj.id');"> <span class="glyphicon glyphicon-pencil"></span>&nbsp;删除
+							</a></td>
+						</tr>
+						#end
+					</tbody>
+				</table>
+				#parse("htmls/global/listPage.html")
+			</div>
+		</div>
+	</form>
+	<!-- 全局公共类库Begin -->
+	<script src="../js/jquery.min.js?v=2.1.4"></script>
+	<script type="text/javascript" src="../plugin/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		function deleteNews(id) {
+			$('#id').val(id);
+			swal({
+				title : "提示",
+				text : "确定删除吗？",
+				type : "warning",
+				showCancelButton : "true",
+				showConfirmButton : "true",
+				confirmButtonText : "确定",
+				cancelButtonText : "取消",
+				animation : "slide-from-top"
+			}, function() {
+				$.ajax({
+					url : "../index/deletpraoduct",
+					data : {
+						"id" : id,
+					},
+					success : function(data) {
+						if (data > 0) {
+							swal("提示", "删除成功", "warning");
+						} else {
+							swal("提示", "删除失败", "warning");
+						}
+						setTimeout("location.href='../index/selectproduct'",1000);
+					}
+				});
+			});
+		}
+	</script>
+</body>
+</html>
